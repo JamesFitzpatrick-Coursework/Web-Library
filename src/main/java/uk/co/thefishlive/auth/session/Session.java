@@ -16,4 +16,8 @@ public interface Session {
 
     public Session refreshSession() throws IOException, SessionException;
 
+    public boolean invalidate() throws IOException, SessionException;
+
+    public boolean isValid() throws IOException, SessionException;
+
 }

@@ -14,9 +14,8 @@ public class WebUtils {
     public static final URL HANDSHAKE_ENDPOINT = constantUrl(BASE_URL + "/handshake");
     public static final URL LOGIN_ENDPOINT = constantUrl(BASE_URL + "/login");
     public static final URL REFRESH_ENDPOINT = constantUrl(BASE_URL + "/refresh");
-    public static final URL VERIFY_ENDPOINT = constantUrl(BASE_URL + "/verify");
     public static final URL INVALIDATE_ENDPOINT = constantUrl(BASE_URL + "/invalidate");
-    public static final URL CHECK_ENDPOINT = constantUrl(BASE_URL + "/check");
+    public static final URL VALIDATE_ENDPOINT = constantUrl(BASE_URL + "/validate");
 
 
     public static URL constantUrl(String url) {

@@ -41,6 +41,16 @@ public class MeteorSession implements Session {
     }
 
     @Override
+    public boolean invalidate() throws IOException, SessionException {
+        return getHandler().invalidate(this);
+    }
+
+    @Override
+    public boolean isValid() throws IOException, SessionException {
+        return getHandler().isValid(this);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -49,9 +59,7 @@ public class MeteorSession implements Session {
 
         if (access != null ? !access.equals(that.access) : that.access != null) return false;
         if (profile != null ? !profile.equals(that.profile) : that.profile != null) return false;
-        if (refresh != null ? !refresh.equals(that.refresh) : that.refresh != null) return false;
-
-        return true;
+        return !(refresh != null ? !refresh.equals(that.refresh) : that.refresh != null);
     }
 
     @Override

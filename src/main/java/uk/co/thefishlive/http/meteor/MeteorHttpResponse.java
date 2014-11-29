@@ -9,17 +9,19 @@ import com.google.gson.JsonObject;
  */
 public class MeteorHttpResponse implements HttpResponse {
 
+    private boolean success;
     private int responseCode;
     private JsonObject payload;
 
-    public MeteorHttpResponse(int responseCode, JsonObject payload) {
+    public MeteorHttpResponse(boolean success, int responseCode, JsonObject payload) {
+        this.success = success;
         this.responseCode = responseCode;
         this.payload = payload;
     }
 
     @Override
     public boolean isSuccessful() {
-        return responseCode == 200;
+        return success;
     }
 
     @Override

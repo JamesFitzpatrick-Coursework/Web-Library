@@ -41,7 +41,7 @@ public class MeteorSessionHandler implements SessionHandler {
         refreshPayload.addProperty("token", meteorSession.getRefreshToken().toString());
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, refreshPayload);
 
-        HttpResponse response = client.sendRequest(WebUtils.CHECK_ENDPOINT, request);
+        HttpResponse response = client.sendRequest(WebUtils.VALIDATE_ENDPOINT, request);
         return response.isSuccessful();
     }
 
