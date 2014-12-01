@@ -22,8 +22,16 @@ public class MeteorLoginHandlerTest {
     }
 
     @Test
-    public void testLogin() throws Exception {
+    public void testLoginById() throws Exception {
         Profile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
+        Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
+        System.out.println(session);
+        assertNotNull(session);
+    }
+
+    @Test
+    public void testLoginByName() throws Exception {
+        Profile profile = new LoginProfile("jfitzpatrick");
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
         System.out.println(session);
         assertNotNull(session);

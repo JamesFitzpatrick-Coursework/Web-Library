@@ -9,11 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import uk.co.thefishlive.http.exception.HttpException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,8 +29,10 @@ public class MeteorHttpClient implements HttpClient {
         Preconditions.checkNotNull(url, "URL cannot be null");
         Preconditions.checkNotNull(request, "Request cannot be null");
 
+        HttpURLConnection connection = null;
+
         try {
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection(); // TODO proxy settings?
+            connection = (HttpURLConnection) url.openConnection(); // TODO proxy settings?
 
             connection.setRequestMethod(request.getRequestType().name());
             connection.setDoInput(true);
@@ -48,6 +49,14 @@ public class MeteorHttpClient implements HttpClient {
             }
 
         } catch (IOException e) {
+            if (connection != null) {
+                try (InputStreamReader reader = new InputStreamReader(connection.getErrorStream())) {
+                    JsonParser parser = new JsonParser();
+                    JsonObject payload = parser.parse(reader).getAsJsonObject();
+                    throw new HttpException(payload.getAsJsonObject("payload").get("error").getAsString());
+                }
+            }
+
             throw e;
         }
     }

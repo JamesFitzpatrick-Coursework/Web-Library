@@ -1,5 +1,7 @@
 package uk.co.thefishlive.http;
 
+import uk.co.thefishlive.http.exception.HttpException;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -16,6 +18,6 @@ public interface HttpClient {
      * @param request the request to send
      * @return the http response from the web server
      */
-    public HttpResponse sendRequest(URL url, HttpRequest request) throws IOException;
+    public HttpResponse sendRequest(URL url, HttpRequest request) throws IOException, HttpException;
 
 }

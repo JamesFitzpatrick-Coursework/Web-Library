@@ -44,7 +44,11 @@ public class MeteorLoginHandler implements LoginHandler {
         // Build handshake request
         JsonObject handshakePayload = new JsonObject();
         handshakePayload.addProperty("client-id", clientid.toString());
-        handshakePayload.addProperty("user-id", profile.getUserId().toString());
+        if (profile.hasUserId()) {
+            handshakePayload.addProperty("user-id", profile.getUserId().toString());
+        } else {
+            handshakePayload.addProperty("display-name", profile.getDisplayName());
+        }
         HttpRequest handshake = new MeteorHttpRequest(RequestType.POST, handshakePayload);
 
         // Send handshake request
@@ -57,6 +61,7 @@ public class MeteorLoginHandler implements LoginHandler {
         // Retrieve the request token from the handshake response
         Token clientid = AuthToken.decode(handshakeResponse.getResponseBody().get("client-id").getAsString());
         Token requestToken = AuthToken.decode(handshakeResponse.getResponseBody().getAsJsonObject("request-token").get("token").getAsString());
+        profile = this.authHandler.getGsonInstance().fromJson(handshakeResponse.getResponseBody().get("user"), LoginProfile.class);
 
         // Check for client id validity
         if (!clientid.equals(this.clientid)) {
@@ -79,7 +84,6 @@ public class MeteorLoginHandler implements LoginHandler {
         }
 
         // Retrieve the information from request
-        profile = this.authHandler.getGsonInstance().fromJson(loginResponse.getResponseBody().get("profile"), LoginProfile.class);
         clientid = AuthToken.decode(loginResponse.getResponseBody().get("client-id").getAsString());
         Token accessToken = AuthToken.decode(loginResponse.getResponseBody().getAsJsonObject("access-token").get("token").getAsString());
         Token refreshToken = AuthToken.decode(loginResponse.getResponseBody().getAsJsonObject("refresh-token").get("token").getAsString());

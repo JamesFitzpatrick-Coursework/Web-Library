@@ -9,4 +9,7 @@ public interface Profile {
 
     public Token getUserId();
 
+    public boolean hasUserId();
+
+    public boolean hasUserName();
 }

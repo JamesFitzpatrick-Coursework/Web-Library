@@ -1,5 +1,6 @@
 package uk.co.thefishlive.meteor.data;
 
+import com.google.common.base.Preconditions;
 import uk.co.thefishlive.auth.data.Profile;
 import uk.co.thefishlive.auth.data.Token;
 
@@ -23,17 +24,19 @@ public class LoginProfile implements Profile {
     @SerializedName("display-name")
     private String username;
 
-    public LoginProfile() {}
+    protected LoginProfile() {}
 
     public LoginProfile(String username) {
-        this.username = username;
+        this(null, username);
     }
 
     public LoginProfile(Token userid) {
-        this.userid = userid;
+        this(userid, null);
     }
 
     public LoginProfile(Token userid, String username) {
+        Preconditions.checkArgument(userid != null || username != null, "Either username or userid must be provided.");
+
         this.userid = userid;
         this.username = username;
     }
@@ -45,7 +48,17 @@ public class LoginProfile implements Profile {
 
     @Override
     public Token getUserId() {
-        return userid;
+        return this.userid;
+    }
+
+    @Override
+    public boolean hasUserId() {
+        return this.userid != null;
+    }
+
+    @Override
+    public boolean hasUserName() {
+        return this.username != null;
     }
 
     @Override
