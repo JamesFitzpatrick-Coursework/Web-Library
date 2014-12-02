@@ -12,19 +12,23 @@ import uk.co.thefishlive.meteor.session.MeteorSessionHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.net.Proxy;
+
 /**
  * Created by James on 14/10/2014.
  */
 public class MeteorAuthHandler implements AuthHandler {
 
-    protected final Gson gson;
+    private final Gson gson;
+    private final Proxy proxy;
     private LoginHandler loginHandler;
     private SessionHandler sessionHandler;
 
-    public MeteorAuthHandler() {
+    public MeteorAuthHandler(Proxy proxy) {
         this.gson = new GsonBuilder()
                         .registerTypeAdapter(Token.class, new AuthTokenHandler())
                         .create();
+        this.proxy = proxy;
 
         Token clientid = AuthToken.generateRandom("client-id");
         this.loginHandler = new MeteorLoginHandler(this, clientid);
@@ -33,6 +37,10 @@ public class MeteorAuthHandler implements AuthHandler {
 
     public Gson getGsonInstance() {
         return this.gson;
+    }
+
+    public Proxy getProxySettings() {
+        return this.proxy;
     }
 
     @Override

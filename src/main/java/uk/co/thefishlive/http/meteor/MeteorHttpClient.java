@@ -14,15 +14,19 @@ import uk.co.thefishlive.http.exception.HttpException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 
 /**
  * Created by James on 20/11/2014.
  */
 public class MeteorHttpClient implements HttpClient {
 
-    private Gson GSON = new GsonBuilder().create();
+    private static final Gson GSON = new GsonBuilder().create();
+    private final Proxy proxy;
+
+    public MeteorHttpClient(Proxy proxy) {
+        this.proxy = proxy;
+    }
 
     @Override
     public HttpResponse sendRequest(URL url, HttpRequest request) throws IOException {
@@ -32,7 +36,7 @@ public class MeteorHttpClient implements HttpClient {
         HttpURLConnection connection = null;
 
         try {
-            connection = (HttpURLConnection) url.openConnection(); // TODO proxy settings?
+            connection = (HttpURLConnection) url.openConnection(proxy);
 
             connection.setRequestMethod(request.getRequestType().name());
             connection.setDoInput(true);

@@ -1,5 +1,6 @@
 package uk.co.thefishlive.meteor.login;
 
+import com.google.common.base.Throwables;
 import uk.co.thefishlive.auth.data.Profile;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
@@ -8,6 +9,12 @@ import uk.co.thefishlive.meteor.data.LoginProfile;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+
 import static org.junit.Assert.*;
 
 public class MeteorLoginHandlerTest {
@@ -18,7 +25,21 @@ public class MeteorLoginHandlerTest {
 
     @Before
     public void setup() {
-        authHandler = new MeteorAuthHandler();
+
+        Proxy proxy = Proxy.NO_PROXY;
+
+        if (System.getProperty("uk.co.thefishlive.proxy") != null) {
+            try {
+                String proxyString = System.getProperty("uk.co.thefishlive.proxy");
+                String host = proxyString.substring(0, proxyString.indexOf(':'));
+                int port = Integer.parseInt(proxyString.substring(proxyString.indexOf(':') + 1));
+                proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(InetAddress.getByName(host), port));
+            } catch (IOException e) {
+                Throwables.propagate(e);
+            }
+        }
+
+        authHandler = new MeteorAuthHandler(proxy);
     }
 
     @Test

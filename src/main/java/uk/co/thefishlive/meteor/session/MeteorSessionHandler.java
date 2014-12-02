@@ -30,10 +30,10 @@ public class MeteorSessionHandler implements SessionHandler {
 
     @Override
     public boolean isValid(Session session) throws IOException, SessionException {
-        if (!(session instanceof MeteorSession)) throw new SessionException("Cannot refresh session, not a meteor session.");
+        if (!(session instanceof MeteorSession)) throw new SessionException("Cannot validate session, not a meteor session.");
         MeteorSession meteorSession = (MeteorSession) session;
 
-        HttpClient client = new MeteorHttpClient();
+        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         JsonObject refreshPayload = new JsonObject();
         refreshPayload.addProperty("client-id", clientid.toString());
@@ -47,10 +47,10 @@ public class MeteorSessionHandler implements SessionHandler {
 
     @Override
     public boolean invalidate(Session session) throws SessionException, IOException {
-        if (!(session instanceof MeteorSession)) throw new SessionException("Cannot refresh session, not a meteor session.");
+        if (!(session instanceof MeteorSession)) throw new SessionException("Cannot invalidate session, not a meteor session.");
         MeteorSession meteorSession = (MeteorSession) session;
 
-        HttpClient client = new MeteorHttpClient();
+        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         JsonObject refreshPayload = new JsonObject();
         refreshPayload.addProperty("client-id", clientid.toString());
@@ -72,7 +72,7 @@ public class MeteorSessionHandler implements SessionHandler {
         if (!(session instanceof MeteorSession)) throw new SessionException("Cannot refresh session, not a meteor session.");
         MeteorSession meteorSession = (MeteorSession) session;
 
-        HttpClient client = new MeteorHttpClient();
+        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         JsonObject refreshPayload = new JsonObject();
         refreshPayload.addProperty("client-id", clientid.toString());
