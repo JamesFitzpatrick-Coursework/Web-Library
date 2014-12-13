@@ -3,7 +3,7 @@ package uk.co.thefishlive.http.exception;
 import java.io.IOException;
 
 /**
- *
+ * Exception to signal that something has gone wrong with a http request.
  */
 public class HttpException extends IOException {
 

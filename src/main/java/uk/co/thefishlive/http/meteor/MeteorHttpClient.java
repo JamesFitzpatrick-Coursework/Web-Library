@@ -1,24 +1,20 @@
 package uk.co.thefishlive.http.meteor;
 
+import com.google.gson.*;
 import uk.co.thefishlive.http.HttpClient;
+import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpRequest;
 import uk.co.thefishlive.http.HttpResponse;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import uk.co.thefishlive.http.exception.HttpException;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.*;
+import java.util.Scanner;
 
-/**
- * Created by James on 20/11/2014.
- */
 public class MeteorHttpClient implements HttpClient {
 
     private static final Gson GSON = new GsonBuilder().create();
@@ -34,11 +30,13 @@ public class MeteorHttpClient implements HttpClient {
         Preconditions.checkNotNull(request, "Request cannot be null");
 
         HttpURLConnection connection = null;
+        String responseBuffer = "";
 
         try {
             connection = (HttpURLConnection) url.openConnection(proxy);
 
             connection.setRequestMethod(request.getRequestType().name());
+            connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
 
@@ -46,13 +44,22 @@ public class MeteorHttpClient implements HttpClient {
                 GSON.toJson(request.getRequestBody(), writer);
             }
 
+            for (HttpHeader header : request.getHeaders()) {
+                connection.setRequestProperty(header.getName(), header.getValue());
+            }
+
             try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
                 JsonParser parser = new JsonParser();
-                JsonObject payload = parser.parse(reader).getAsJsonObject();
+                Scanner s = new Scanner(reader).useDelimiter("\\A");
+                responseBuffer = s.hasNext() ? s.next() : "";
+                JsonObject payload = parser.parse(responseBuffer).getAsJsonObject();
                 return new MeteorHttpResponse(payload.get("success").getAsBoolean(), connection.getResponseCode(), payload.getAsJsonObject("payload"));
             }
 
-        } catch (IOException e) {
+        } catch (JsonSyntaxException ex) {
+            System.err.println(responseBuffer);
+            throw ex;
+        } catch (IOException ex) {
             if (connection != null) {
                 try (InputStreamReader reader = new InputStreamReader(connection.getErrorStream())) {
                     JsonParser parser = new JsonParser();
@@ -61,7 +68,7 @@ public class MeteorHttpClient implements HttpClient {
                 }
             }
 
-            throw e;
+            throw ex;
         }
     }
 }

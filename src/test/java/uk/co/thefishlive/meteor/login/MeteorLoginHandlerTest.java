@@ -9,11 +9,13 @@ import uk.co.thefishlive.meteor.data.LoginProfile;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.*;
 
@@ -24,9 +26,8 @@ public class MeteorLoginHandlerTest {
     private MeteorAuthHandler authHandler;
 
     @Before
-    public void setup() {
-
-        Proxy proxy = Proxy.NO_PROXY;
+    public void setup() throws URISyntaxException {
+        Proxy proxy = ProxyUtils.getSystemProxy();
 
         if (System.getProperty("uk.co.thefishlive.proxy") != null) {
             try {

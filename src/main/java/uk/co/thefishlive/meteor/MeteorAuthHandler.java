@@ -3,10 +3,12 @@ package uk.co.thefishlive.meteor;
 import uk.co.thefishlive.auth.AuthHandler;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.login.LoginHandler;
+import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.session.SessionHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.data.AuthToken.AuthTokenHandler;
 import uk.co.thefishlive.meteor.login.MeteorLoginHandler;
+import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.session.MeteorSessionHandler;
 
 import com.google.gson.Gson;
@@ -23,6 +25,7 @@ public class MeteorAuthHandler implements AuthHandler {
     private final Proxy proxy;
     private LoginHandler loginHandler;
     private SessionHandler sessionHandler;
+    private Session activeSession;
 
     public MeteorAuthHandler(Proxy proxy) {
         this.gson = new GsonBuilder()
@@ -51,5 +54,16 @@ public class MeteorAuthHandler implements AuthHandler {
     @Override
     public SessionHandler getSessionHandler() {
         return this.sessionHandler;
+    }
+
+    @Override
+    public void setActiveSession(Session session) {
+        if (!(session instanceof MeteorSession)) throw new IllegalArgumentException("Session is not a valid Meteor session");
+        this.activeSession = session;
+    }
+
+    @Override
+    public Session getActiveSession() {
+        return this.activeSession;
     }
 }

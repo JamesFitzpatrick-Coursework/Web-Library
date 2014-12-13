@@ -4,10 +4,8 @@ import uk.co.thefishlive.auth.data.Profile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.login.LoginHandler;
 import uk.co.thefishlive.auth.session.Session;
-import uk.co.thefishlive.http.HttpClient;
-import uk.co.thefishlive.http.HttpRequest;
-import uk.co.thefishlive.http.HttpResponse;
-import uk.co.thefishlive.http.RequestType;
+import uk.co.thefishlive.http.*;
+import uk.co.thefishlive.http.meteor.BasicHttpHeader;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
@@ -24,6 +22,8 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeteorLoginHandler implements LoginHandler {
 
@@ -49,6 +49,7 @@ public class MeteorLoginHandler implements LoginHandler {
         } else {
             handshakePayload.addProperty("display-name", profile.getDisplayName());
         }
+
         HttpRequest handshake = new MeteorHttpRequest(RequestType.POST, handshakePayload);
 
         // Send handshake request
