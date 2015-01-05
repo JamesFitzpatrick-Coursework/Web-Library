@@ -1,16 +1,27 @@
 package uk.co.thefishlive.auth.login;
 
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.meteor.login.exception.LoginException;
 
 import java.io.IOException;
 
 /**
- * Created by James on 14/10/2014.
+ * Represents a class that handles login requests to a remote server.
  */
 public interface LoginHandler {
 
-    public Session login(Profile profile, char[] password) throws IOException, LoginException;
+    /**
+     * Send a login request to the remote server.
+     *
+     * @param profile the user profile to try and login as
+     * @param password the password for the user profile to send
+     *
+     * @return the new session for the specified user if successful
+     * @throws LoginException signals that the login request was unsuccessful
+     * @throws IOException signals that there has been an error sending the
+     *      request
+     */
+    public Session login(UserProfile profile, char[] password) throws IOException, LoginException;
 
 }

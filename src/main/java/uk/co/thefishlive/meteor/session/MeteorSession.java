@@ -1,6 +1,6 @@
 package uk.co.thefishlive.meteor.session;
 
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.session.SessionHandler;
@@ -14,11 +14,11 @@ import java.io.IOException;
 public class MeteorSession implements Session {
 
     private SessionHandler handler;
-    private Profile profile;
+    private UserProfile profile;
     private Token access;
     private Token refresh;
 
-    public MeteorSession(SessionHandler handler, Profile profile, Token access, Token refresh) {
+    public MeteorSession(SessionHandler handler, UserProfile profile, Token access, Token refresh) {
         this.handler = handler;
         this.profile = profile;
         this.access = access;
@@ -26,7 +26,7 @@ public class MeteorSession implements Session {
     }
 
     @Override
-    public Profile getOwner() {
+    public UserProfile getOwner() {
         return this.profile;
     }
 

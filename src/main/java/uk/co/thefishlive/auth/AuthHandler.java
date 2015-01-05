@@ -1,37 +1,42 @@
 package uk.co.thefishlive.auth;
 
+import uk.co.thefishlive.auth.group.GroupManager;
 import uk.co.thefishlive.auth.login.LoginHandler;
-import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.session.SessionHandler;
+import uk.co.thefishlive.auth.user.UserManager;
 
 /**
  * Represents the handler controlling all authentication, contains methods to
  * authenticate users.
  */
-public interface AuthHandler {
+public interface AuthHandler extends SessionStore {
 
     /**
+     * Gets the login handler, handles login flow.
      *
-     * @return
+     * @return the current login handler
      */
     public LoginHandler getLoginHandler();
 
     /**
+     * Gets the session handler, handles session management.
      *
-     * @return
+     * @return the current session manager
      */
     public SessionHandler getSessionHandler();
 
     /**
+     * Gets the current user manager.
      *
-     * @param session
+     * @return the current user manager instance
      */
-    public void setActiveSession(Session session);
+    public UserManager getUserManager();
 
     /**
+     * Gets the current group manager.
      *
-     * @return
+     * @return the current group manager instance
      */
-    public Session getActiveSession();
+    public GroupManager getGroupManager();
 
 }

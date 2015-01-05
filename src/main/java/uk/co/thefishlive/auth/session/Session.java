@@ -1,6 +1,6 @@
 package uk.co.thefishlive.auth.session;
 
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.meteor.session.exception.SessionException;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public interface Session {
 
-    public Profile getOwner();
+    public UserProfile getOwner();
 
     public SessionHandler getHandler();
 

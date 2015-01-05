@@ -14,24 +14,21 @@ public class AuthTokenTest {
     public void testTokenDecoding() {
         AuthToken token = AuthToken.generateRandom("client-id");
 
+        String tokenString = token.toString();
+        System.out.println(tokenString);
+        Token token2 = AuthToken.decode(tokenString);
+        assertEquals(tokenString, token2.toString());
+    }
+
+    @Test
+    public void testTokenGenerating1() {
+        AuthToken token = AuthToken.generateRandom("user-id");
         System.out.println(token.toString());
-        Token token2 = AuthToken.decode(token.toString());
-        System.out.println(token2.toString());
     }
 
-    private String toString(byte[] userSecret) {
-        StringBuilder builder = new StringBuilder();
-        for (byte element : userSecret) {
-            builder.append(Integer.toHexString(element));
-        }
-        return builder.toString();
+    @Test
+    public void testTokenGenerating2() {
+        AuthToken token = AuthToken.generateRandom("group-id");
+        System.out.println(token.toString());
     }
-
-    /*@Test
-    public void testTokenToString() {
-        AuthToken token = AuthToken.generateRandom();
-        String toString = token.toString();
-        assertTrue(32 == toString.length());
-        System.out.println(toString);
-    }*/
 }

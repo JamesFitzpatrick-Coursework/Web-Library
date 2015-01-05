@@ -5,9 +5,6 @@ import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by James on 12/11/2014.
- */
 public class PermissionRegistry {
 
     private static final Map<String, Permission> permissions = new HashMap<>();

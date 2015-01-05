@@ -1,22 +1,25 @@
 package uk.co.thefishlive.http.meteor;
 
+import com.google.common.collect.ImmutableList;
+import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpResponse;
 
 import com.google.gson.JsonObject;
 
-/**
- * Created by James on 20/11/2014.
- */
+import java.util.List;
+
 public class MeteorHttpResponse implements HttpResponse {
 
     private boolean success;
     private int responseCode;
     private JsonObject payload;
+    private List<HttpHeader> headers;
 
-    public MeteorHttpResponse(boolean success, int responseCode, JsonObject payload) {
+    public MeteorHttpResponse(boolean success, int responseCode, JsonObject payload, List<HttpHeader> headers) {
         this.success = success;
         this.responseCode = responseCode;
         this.payload = payload;
+        this.headers = headers;
     }
 
     @Override
@@ -32,5 +35,10 @@ public class MeteorHttpResponse implements HttpResponse {
     @Override
     public JsonObject getResponseBody() {
         return this.payload;
+    }
+
+    @Override
+    public List<HttpHeader> getHeaders() {
+        return ImmutableList.copyOf(this.headers);
     }
 }

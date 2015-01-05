@@ -1,8 +1,5 @@
-package uk.co.thefishlive.auth.user;
+package uk.co.thefishlive.auth.group;
 
-/**
- * Created by James on 12/11/2014.
- */
 public interface Group {
 
     public String getName();

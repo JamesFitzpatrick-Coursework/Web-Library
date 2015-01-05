@@ -1,8 +1,7 @@
 package uk.co.thefishlive.meteor.session;
 
-import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
@@ -19,7 +18,7 @@ import static org.junit.Assert.*;
 
 public class MeteorSessionHandlerTest {
 
-    public static final String TEST_USER_ID = "AE-2806CE20-C4B7FC614BD01F-ADE203AB";
+    public static final String TEST_USER_ID = "AE-5CC7BBA3-D631FEB34020F5-18EA0279"; // TODO change to a dynamic lookup
 
     private MeteorAuthHandler authHandler;
 
@@ -43,7 +42,7 @@ public class MeteorSessionHandlerTest {
 
     @Test
     public void testRefresh() throws Exception {
-        Profile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
+        UserProfile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
         assertNotNull(session);
         Session refreshedSession = session.refreshSession();
@@ -53,14 +52,14 @@ public class MeteorSessionHandlerTest {
 
     @Test
     public void testValidate() throws Exception {
-        Profile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
+        UserProfile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
         assertTrue(session.isValid());
     }
 
     @Test
     public void testInvalidate() throws Exception {
-        Profile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
+        UserProfile profile = new LoginProfile(AuthToken.decode(TEST_USER_ID));
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
         assertTrue(session.invalidate());
         assertFalse(session.isValid());

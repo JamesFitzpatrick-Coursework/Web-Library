@@ -1,33 +1,28 @@
 package uk.co.thefishlive.meteor.data;
 
 import com.google.common.base.Preconditions;
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.reflect.Type;
-
-/**
- * Created by James on 14/10/2014.
- */
-public class LoginProfile implements Profile {
+public class LoginProfile implements UserProfile {
 
     @SerializedName("user-id")
     private Token userid;
-    @SerializedName("display-name")
+    @SerializedName("user-name")
     private String username;
+    @SerializedName("display-name")
+    private String displayName;
 
     protected LoginProfile() {}
 
     public LoginProfile(String username) {
-        this(null, username);
+        this(null, username, null);
+    }
+
+    public LoginProfile(String username, String displayName) {
+        this(null, username, displayName);
     }
 
     public LoginProfile(Token userid) {
@@ -35,15 +30,20 @@ public class LoginProfile implements Profile {
     }
 
     public LoginProfile(Token userid, String username) {
-        Preconditions.checkArgument(userid != null || username != null, "Either username or userid must be provided.");
+        this(userid, username, null);
+    }
+
+    public LoginProfile(Token userid, String username, String displayname) {
+        Preconditions.checkArgument(userid != null || username != null || displayname != null, "Either username, displayname or userid must be provided.");
 
         this.userid = userid;
         this.username = username;
+        this.displayName = displayname;
     }
 
     @Override
     public String getDisplayName() {
-        return this.username;
+        return this.displayName;
     }
 
     @Override
@@ -52,13 +52,28 @@ public class LoginProfile implements Profile {
     }
 
     @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
     public boolean hasUserId() {
         return this.userid != null;
     }
 
     @Override
-    public boolean hasUserName() {
+    public boolean hasUsername() {
         return this.username != null;
+    }
+
+    @Override
+    public boolean hasDisplayName() {
+        return this.displayName != null;
+    }
+
+    @Override
+    public boolean isComplete() {
+        return this.hasUserId() && this.hasDisplayName() && this.hasUsername();
     }
 
     @Override
@@ -69,6 +84,7 @@ public class LoginProfile implements Profile {
         LoginProfile that = (LoginProfile) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
+        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
         return !(username != null ? !username.equals(that.username) : that.username != null);
     }
 
@@ -76,6 +92,7 @@ public class LoginProfile implements Profile {
     public int hashCode() {
         int result = userid != null ? userid.hashCode() : 0;
         result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
         return result;
     }
 
@@ -84,6 +101,7 @@ public class LoginProfile implements Profile {
         return "LoginProfile{" +
                 "userid=" + userid +
                 ", username='" + username + '\'' +
+                ", disply-name='" + displayName + '\'' +
                 '}';
     }
 

@@ -5,9 +5,6 @@ import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by James on 15/10/2014.
- */
 public class TokenTypeRegistry {
 
     private static final Map<Integer, String> typesById = new HashMap<>();
@@ -19,7 +16,7 @@ public class TokenTypeRegistry {
         registerType(0xAC, "access-token");
         registerType(0xAD, "refresh-token");
         registerType(0xAE, "user-id");
-        registerType(0xAF, "RESERVED");
+        registerType(0xAF, "group-id");
     }
 
     public static void registerType(int code, String name) {

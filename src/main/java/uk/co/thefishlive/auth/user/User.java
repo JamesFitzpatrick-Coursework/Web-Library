@@ -1,15 +1,16 @@
 package uk.co.thefishlive.auth.user;
 
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.group.Group;
 
-/**
- * Created by James on 12/11/2014.
- */
+import java.util.List;
+
 public interface User {
 
-    public Profile getUserProfile();
+    public UserProfile getUserProfile();
 
     public Group getPrimaryGroup();
+
+    public List<Group> getGroups();
 
     public boolean hasPermission(String permission);
 

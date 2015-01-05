@@ -2,6 +2,8 @@ package uk.co.thefishlive.http;
 
 import com.google.gson.JsonObject;
 
+import java.util.List;
+
 /**
  * A response to a {@link uk.co.thefishlive.http.HttpRequest} sent by the
  * {@link uk.co.thefishlive.http.HttpClient}.
@@ -31,4 +33,11 @@ public interface HttpResponse {
      * @return the response body for this request
      */
     public JsonObject getResponseBody();
+
+    /**
+     * Get the headers sent with within this response.
+     *
+     * @return a list of the headers sent with this response
+     */
+    public List<HttpHeader> getHeaders();
 }

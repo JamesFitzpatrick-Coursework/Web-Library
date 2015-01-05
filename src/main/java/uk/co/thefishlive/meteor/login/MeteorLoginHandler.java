@@ -1,6 +1,6 @@
 package uk.co.thefishlive.meteor.login;
 
-import uk.co.thefishlive.auth.data.Profile;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.login.LoginHandler;
 import uk.co.thefishlive.auth.session.Session;
@@ -21,7 +21,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,19 +37,17 @@ public class MeteorLoginHandler implements LoginHandler {
     }
 
     @Override
-    public Session login(Profile profile, char[] password) throws IOException, LoginException {
+    public Session login(UserProfile profile, char[] password) throws IOException, LoginException {
         HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         // Build handshake request
         JsonObject handshakePayload = new JsonObject();
-        handshakePayload.addProperty("client-id", clientid.toString());
-        if (profile.hasUserId()) {
-            handshakePayload.addProperty("user-id", profile.getUserId().toString());
-        } else {
-            handshakePayload.addProperty("display-name", profile.getDisplayName());
-        }
+        handshakePayload.addProperty("user", profile.hasUserId() ? profile.getUserId().toString() : profile.getDisplayName());
 
-        HttpRequest handshake = new MeteorHttpRequest(RequestType.POST, handshakePayload);
+        List<HttpHeader> handshakeHeaders = new ArrayList<>();
+        handshakeHeaders.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
+
+        HttpRequest handshake = new MeteorHttpRequest(RequestType.POST, handshakePayload, handshakeHeaders);
 
         // Send handshake request
         HttpResponse handshakeResponse = client.sendRequest(HANDSHAKE_ENDPOINT, handshake);
@@ -71,11 +68,14 @@ public class MeteorLoginHandler implements LoginHandler {
 
         // Build login request from handshake
         JsonObject loginPayload = new JsonObject();
-        loginPayload.addProperty("client-id", clientid.toString());
-        loginPayload.addProperty("user-id", profile.getUserId().toString());
+        loginPayload.addProperty("user", profile.getUserId().toString());
         loginPayload.addProperty("password", new String(password));
         loginPayload.addProperty("request-token", requestToken.toString());
-        HttpRequest login = new MeteorHttpRequest(RequestType.POST, loginPayload);
+
+        List<HttpHeader> loginHeaders = new ArrayList<>();
+        loginHeaders.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
+
+        HttpRequest login = new MeteorHttpRequest(RequestType.POST, loginPayload, loginHeaders);
 
         // Send the login request
         HttpResponse loginResponse = client.sendRequest(LOGIN_ENDPOINT, login);

@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MeteorHttpClient implements HttpClient {
@@ -40,12 +43,12 @@ public class MeteorHttpClient implements HttpClient {
             connection.setDoInput(true);
             connection.setDoOutput(true);
 
-            try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
-                GSON.toJson(request.getRequestBody(), writer);
-            }
-
             for (HttpHeader header : request.getHeaders()) {
                 connection.setRequestProperty(header.getName(), header.getValue());
+            }
+
+            try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+                GSON.toJson(request.getRequestBody(), writer);
             }
 
             try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
@@ -53,7 +56,16 @@ public class MeteorHttpClient implements HttpClient {
                 Scanner s = new Scanner(reader).useDelimiter("\\A");
                 responseBuffer = s.hasNext() ? s.next() : "";
                 JsonObject payload = parser.parse(responseBuffer).getAsJsonObject();
-                return new MeteorHttpResponse(payload.get("success").getAsBoolean(), connection.getResponseCode(), payload.getAsJsonObject("payload"));
+
+                List<HttpHeader> headers = new ArrayList<>();
+
+                for (Map.Entry<String,List<String>> entry : connection.getHeaderFields().entrySet()) {
+                    for (String value : entry.getValue()) {
+                        headers.add(new BasicHttpHeader(entry.getKey(), value));
+                    }
+                }
+
+                return new MeteorHttpResponse(payload.get("success").getAsBoolean(), connection.getResponseCode(), payload.getAsJsonObject("payload"), headers);
             }
 
         } catch (JsonSyntaxException ex) {
