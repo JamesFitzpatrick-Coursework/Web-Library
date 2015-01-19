@@ -1,4 +1,4 @@
-package uk.co.thefishlive.meteor.data;
+package uk.co.thefishlive.meteor.user;
 
 import com.google.common.base.Preconditions;
 import uk.co.thefishlive.auth.user.UserProfile;
@@ -6,7 +6,7 @@ import uk.co.thefishlive.auth.data.Token;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginProfile implements UserProfile {
+public class MeteorUserProfile implements UserProfile {
 
     @SerializedName("user-id")
     private Token userid;
@@ -15,25 +15,25 @@ public class LoginProfile implements UserProfile {
     @SerializedName("display-name")
     private String displayName;
 
-    protected LoginProfile() {}
+    protected MeteorUserProfile() {}
 
-    public LoginProfile(String username) {
+    public MeteorUserProfile(String username) {
         this(null, username, null);
     }
 
-    public LoginProfile(String username, String displayName) {
+    public MeteorUserProfile(String username, String displayName) {
         this(null, username, displayName);
     }
 
-    public LoginProfile(Token userid) {
+    public MeteorUserProfile(Token userid) {
         this(userid, null);
     }
 
-    public LoginProfile(Token userid, String username) {
+    public MeteorUserProfile(Token userid, String username) {
         this(userid, username, null);
     }
 
-    public LoginProfile(Token userid, String username, String displayname) {
+    public MeteorUserProfile(Token userid, String username, String displayname) {
         Preconditions.checkArgument(userid != null || username != null || displayname != null, "Either username, displayname or userid must be provided.");
 
         this.userid = userid;
@@ -42,27 +42,32 @@ public class LoginProfile implements UserProfile {
     }
 
     @Override
+    public String getIdentifier() {
+        return (hasId() ? getId().toString() : getName());
+    }
+
+    @Override
     public String getDisplayName() {
         return this.displayName;
     }
 
     @Override
-    public Token getUserId() {
+    public Token getId() {
         return this.userid;
     }
 
     @Override
-    public String getUsername() {
+    public String getName() {
         return this.username;
     }
 
     @Override
-    public boolean hasUserId() {
+    public boolean hasId() {
         return this.userid != null;
     }
 
     @Override
-    public boolean hasUsername() {
+    public boolean hasName() {
         return this.username != null;
     }
 
@@ -73,7 +78,7 @@ public class LoginProfile implements UserProfile {
 
     @Override
     public boolean isComplete() {
-        return this.hasUserId() && this.hasDisplayName() && this.hasUsername();
+        return this.hasId() && this.hasDisplayName() && this.hasName();
     }
 
     @Override
@@ -81,7 +86,7 @@ public class LoginProfile implements UserProfile {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LoginProfile that = (LoginProfile) o;
+        MeteorUserProfile that = (MeteorUserProfile) o;
 
         if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
@@ -101,7 +106,7 @@ public class LoginProfile implements UserProfile {
         return "LoginProfile{" +
                 "userid=" + userid +
                 ", username='" + username + '\'' +
-                ", disply-name='" + displayName + '\'' +
+                ", display-name='" + displayName + '\'' +
                 '}';
     }
 

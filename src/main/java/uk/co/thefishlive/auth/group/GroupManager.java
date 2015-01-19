@@ -1,5 +1,6 @@
 package uk.co.thefishlive.auth.group;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public interface GroupManager {
      * @param group the group to fetch the information about
      * @return the filled out {@link Group} instance
      */
-    public Group getGroupProfile(GroupProfile group);
+    public Group getGroupProfile(GroupProfile group) throws IOException;
 
     /**
      * Create a new group, based off a skeletal profile provided.
@@ -21,7 +22,15 @@ public interface GroupManager {
      * @param profile the profile to base the new group off
      * @return the new user's {@link Group} instance
      */
-    public Group createGroup(GroupProfile profile);
+    public GroupProfile createGroup(GroupProfile profile) throws IOException;
+
+    /**
+     * Delete a specified group.
+     *
+     * @param profile the profile of the group to delete
+     * @return true if successful, false otherwise
+     */
+    boolean deleteGroup(GroupProfile profile) throws IOException;
 
     /**
      * Fetch group profiles for all the groups held in the remote servers group
@@ -29,6 +38,6 @@ public interface GroupManager {
      *
      * @return a immutable list of all the groups held in the group database
      */
-    public List<GroupProfile> getGroups();
+    public List<GroupProfile> getGroups() throws IOException;
 
 }

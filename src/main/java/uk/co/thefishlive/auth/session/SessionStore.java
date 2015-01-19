@@ -1,6 +1,8 @@
-package uk.co.thefishlive.auth;
+package uk.co.thefishlive.auth.session;
 
+import java.util.List;
 import uk.co.thefishlive.auth.session.Session;
+import uk.co.thefishlive.http.HttpHeader;
 
 /**
  * Represents an object that stores an active session
@@ -20,5 +22,12 @@ public interface SessionStore {
      * @return the current login session
      */
     public Session getActiveSession();
+
+    /**
+     * Get the authentication headers for this session store
+     *
+     * @return a list of authentication headers
+     */
+    public List<HttpHeader> getAuthHeaders();
 
 }

@@ -4,9 +4,12 @@ import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.session.SessionHandler;
+import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.session.exception.SessionException;
 
 import java.io.IOException;
+import uk.co.thefishlive.meteor.user.MeteorUserProfile;
 
 /**
  * Created by James on 21/11/2014.
@@ -26,11 +29,10 @@ public class MeteorSession implements Session {
     }
 
     @Override
-    public UserProfile getOwner() {
+    public UserProfile getProfile() {
         return this.profile;
     }
 
-    @Override
     public SessionHandler getHandler() {
         return this.handler;
     }
@@ -85,5 +87,9 @@ public class MeteorSession implements Session {
 
     public Token getAccessToken() {
         return access;
+    }
+
+    public static MeteorSession generateRandomSession(MeteorAuthHandler authHandler, UserProfile user) {
+        return new MeteorSession(authHandler.getSessionHandler(), user,  AuthToken.generateRandom("access-token"), AuthToken.generateRandom("refresh-token"));
     }
 }

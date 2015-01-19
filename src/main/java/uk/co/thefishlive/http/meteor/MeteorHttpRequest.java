@@ -1,5 +1,6 @@
 package uk.co.thefishlive.http.meteor;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpRequest;
@@ -20,7 +21,15 @@ public class MeteorHttpRequest implements HttpRequest {
         this(type, payload, new ArrayList<HttpHeader>());
     }
 
+    public MeteorHttpRequest(RequestType type, List<HttpHeader> headers) {
+        this(type, null, headers);
+    }
+
     public MeteorHttpRequest(RequestType type, JsonObject payload, List<HttpHeader> headers) {
+        if (type == RequestType.POST) {
+            Preconditions.checkArgument(payload != null, "Post request must have a request body");
+        }
+
         this.type = type;
         this.payload = payload;
         this.headers = headers;

@@ -10,7 +10,8 @@ import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.data.LoginProfile;
+import uk.co.thefishlive.meteor.user.MeteorUserProfile;
+import uk.co.thefishlive.meteor.json.MeteorUserProfileAdapter;
 import uk.co.thefishlive.meteor.login.exception.LoginException;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 
@@ -26,7 +27,9 @@ import java.util.List;
 
 public class MeteorLoginHandler implements LoginHandler {
 
-    private static final Gson GSON = new GsonBuilder().create();
+    private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(MeteorUserProfile.class, new MeteorUserProfileAdapter())
+            .create();
 
     private final MeteorAuthHandler authHandler;
     private final Token clientid;
@@ -42,7 +45,7 @@ public class MeteorLoginHandler implements LoginHandler {
 
         // Build handshake request
         JsonObject handshakePayload = new JsonObject();
-        handshakePayload.addProperty("user", profile.hasUserId() ? profile.getUserId().toString() : profile.getDisplayName());
+        handshakePayload.addProperty("user", profile.hasId() ? profile.getId().toString() : profile.getDisplayName());
 
         List<HttpHeader> handshakeHeaders = new ArrayList<>();
         handshakeHeaders.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
@@ -59,7 +62,7 @@ public class MeteorLoginHandler implements LoginHandler {
         // Retrieve the request token from the handshake response
         Token clientid = AuthToken.decode(handshakeResponse.getResponseBody().get("client-id").getAsString());
         Token requestToken = AuthToken.decode(handshakeResponse.getResponseBody().getAsJsonObject("request-token").get("token").getAsString());
-        profile = this.authHandler.getGsonInstance().fromJson(handshakeResponse.getResponseBody().get("user"), LoginProfile.class);
+        profile = this.authHandler.getGsonInstance().fromJson(handshakeResponse.getResponseBody().get("user"), MeteorUserProfile.class);
 
         // Check for client id validity
         if (!clientid.equals(this.clientid)) {
@@ -68,7 +71,7 @@ public class MeteorLoginHandler implements LoginHandler {
 
         // Build login request from handshake
         JsonObject loginPayload = new JsonObject();
-        loginPayload.addProperty("user", profile.getUserId().toString());
+        loginPayload.addProperty("user", profile.getId().toString());
         loginPayload.addProperty("password", new String(password));
         loginPayload.addProperty("request-token", requestToken.toString());
 

@@ -1,10 +1,8 @@
 package uk.co.thefishlive.http.meteor;
 
+import com.google.common.base.Throwables;
 import com.google.gson.*;
-import uk.co.thefishlive.http.HttpClient;
-import uk.co.thefishlive.http.HttpHeader;
-import uk.co.thefishlive.http.HttpRequest;
-import uk.co.thefishlive.http.HttpResponse;
+import uk.co.thefishlive.http.*;
 
 import com.google.common.base.Preconditions;
 import uk.co.thefishlive.http.exception.HttpException;
@@ -17,14 +15,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
 public class MeteorHttpClient implements HttpClient {
 
     private static final Gson GSON = new GsonBuilder().create();
     private final Proxy proxy;
+    private static HttpClient instance;
 
     public MeteorHttpClient(Proxy proxy) {
         this.proxy = proxy;
+    }
+
+    public static HttpClient getInstance() {
+        if (instance == null) {
+            try {
+                instance = new MeteorHttpClient(ProxyUtils.getSystemProxy());
+            } catch (URISyntaxException e) {
+                Throwables.propagate(e);
+            }
+        }
+        return instance;
     }
 
     @Override
@@ -40,15 +51,17 @@ public class MeteorHttpClient implements HttpClient {
 
             connection.setRequestMethod(request.getRequestType().name());
             connection.setUseCaches(false);
-            connection.setDoInput(true);
             connection.setDoOutput(true);
 
             for (HttpHeader header : request.getHeaders()) {
                 connection.setRequestProperty(header.getName(), header.getValue());
             }
 
-            try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
-                GSON.toJson(request.getRequestBody(), writer);
+            if (request.getRequestBody() != null) {
+                connection.setDoInput(true);
+                try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+                    GSON.toJson(request.getRequestBody(), writer);
+                }
             }
 
             try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
@@ -72,10 +85,11 @@ public class MeteorHttpClient implements HttpClient {
             System.err.println(responseBuffer);
             throw ex;
         } catch (IOException ex) {
-            if (connection != null) {
+            if (connection != null && connection.getErrorStream() != null) {
                 try (InputStreamReader reader = new InputStreamReader(connection.getErrorStream())) {
                     JsonParser parser = new JsonParser();
                     JsonObject payload = parser.parse(reader).getAsJsonObject();
+                    System.out.println(payload);
                     throw new HttpException(payload.getAsJsonObject("payload").get("error").getAsString());
                 }
             }

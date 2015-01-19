@@ -3,6 +3,10 @@ package uk.co.thefishlive.meteor.utils;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import uk.co.thefishlive.auth.group.GroupProfile;
+import uk.co.thefishlive.auth.permission.Permission;
+import uk.co.thefishlive.auth.settings.Setting;
+import uk.co.thefishlive.auth.user.UserProfile;
 
 /**
  * Created by James on 20/11/2014.
@@ -17,6 +21,10 @@ public class WebUtils {
     public static final URL INVALIDATE_ENDPOINT = constantUrl(BASE_URL + "/invalidate");
     public static final URL VALIDATE_ENDPOINT = constantUrl(BASE_URL + "/validate");
 
+    public static final URL USERS_ENDPOINT = constantUrl(BASE_URL + "/users");
+    public static final URL USER_CREATE_ENDPOINT = constantUrl(USERS_ENDPOINT + "/create");
+    public static final URL GROUPS_ENDPOINT = constantUrl(BASE_URL + "/groups");
+    public static final URL GROUP_CREATE_ENDPOINT = constantUrl(GROUPS_ENDPOINT + "/create");
 
     public static URL constantUrl(String url) {
         try {
@@ -26,4 +34,67 @@ public class WebUtils {
         }
     }
 
+    public static URL USER_LOOKUP_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/");
+    }
+
+    public static URL USER_GROUPS_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/groups/");
+    }
+
+    public static URL USER_DELETE_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/");
+    }
+
+    public static URL USER_PERMISSION_VIEW_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/permissions/");
+    }
+
+    public static URL USER_PERMISSION_EDIT_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/permissions/edit/");
+    }
+
+    public static URL USER_PERMISSION_CHECK_ENDPOINT(UserProfile profile, Permission permission) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/permissions/" + permission.getKey());
+    }
+
+    public static URL USER_SETTING_EDIT_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/edit/");
+    }
+
+    public static URL USER_SETTING_LOOKUP_ENDPOINT(UserProfile profile, String setting) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/" + setting);
+    }
+
+    public static URL GROUP_LOOKUP_ENDPOINT(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/");
+    }
+
+    public static URL GROUP_USERS_ENDPOINT(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/users/");
+    }
+
+    public static URL GROUP_DELETE_ENDPOINT(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/");
+    }
+
+    public static URL GROUP_PERMISSION_VIEW_ENDPOINT(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/permissions/");
+    }
+
+    public static URL GROUP_PERMISSION_EDIT_ENDPOINT(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/permissions/edit/");
+    }
+
+    public static URL GROUP_PERMISSION_CHECK_ENDPOINT(GroupProfile profile, Permission permission) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/permissions/" + permission.getKey());
+    }
+
+    public static URL GROUP_SETTING_EDIT_ENDPOINT(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/edit/");
+    }
+
+    public static URL GROUP_SETTING_LOOKUP_ENDPOINT(GroupProfile profile, String setting) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/" + setting);
+    }
 }

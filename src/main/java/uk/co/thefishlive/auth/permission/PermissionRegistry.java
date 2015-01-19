@@ -13,12 +13,13 @@ public class PermissionRegistry {
 
     public static void registerPermission(Permission permission) {
         Preconditions.checkNotNull(permission);
-        Preconditions.checkArgument(permissions.containsKey(permission.getKey()), "Permission with key " + permission.getKey() + " is already registered.");
+        Preconditions.checkArgument(!permissions.containsKey(permission.getKey()), "Permission with key " + permission.getKey() + " is already registered.");
         permissions.put(permission.getKey(), permission);
     }
 
     public static Permission getPermission(String name) {
         Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(permissions.containsKey(name), "Permission %s is not registered", name);
         return permissions.get(name);
     }
 }

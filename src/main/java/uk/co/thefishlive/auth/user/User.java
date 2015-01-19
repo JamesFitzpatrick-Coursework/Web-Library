@@ -1,17 +1,22 @@
 package uk.co.thefishlive.auth.user;
 
-import uk.co.thefishlive.auth.group.Group;
-
 import java.util.List;
+import uk.co.thefishlive.auth.data.Identifiable;
+import uk.co.thefishlive.auth.group.GroupProfile;
+import uk.co.thefishlive.auth.permission.Permissible;
+import uk.co.thefishlive.auth.settings.SettingStore;
 
-public interface User {
+/**
+ * Represents a user stored on the remote user database.
+ */
+public interface User extends Identifiable<UserProfile>, SettingStore, Permissible {
 
-    public UserProfile getUserProfile();
-
-    public Group getPrimaryGroup();
-
-    public List<Group> getGroups();
-
-    public boolean hasPermission(String permission);
+    /**
+     * Get all the groups that this user is a member of.
+     *
+     * @return a list of group profiles for groups that this user is a member
+     *      of
+     */
+    public List<GroupProfile> getGroups();
 
 }

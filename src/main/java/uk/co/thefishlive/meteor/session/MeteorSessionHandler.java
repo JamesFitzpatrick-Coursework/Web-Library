@@ -36,7 +36,7 @@ public class MeteorSessionHandler implements SessionHandler {
         HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         JsonObject refreshPayload = new JsonObject();
-        refreshPayload.addProperty("user", session.getOwner().getUserId().toString());
+        refreshPayload.addProperty("user", session.getProfile().getId().toString());
         refreshPayload.addProperty("token", meteorSession.getRefreshToken().toString());
 
         List<HttpHeader> headers = new ArrayList<>();
@@ -56,14 +56,14 @@ public class MeteorSessionHandler implements SessionHandler {
         HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         JsonObject refreshPayload = new JsonObject();
-        refreshPayload.addProperty("user", session.getOwner().getUserId().toString());
+        refreshPayload.addProperty("user", session.getProfile().getId().toString());
         refreshPayload.addProperty("token", meteorSession.getRefreshToken().toString());
 
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
 
         if (authHandler.getActiveSession() != null) {
-            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getOwner().getUserId().toString()));
+            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getProfile().getId().toString()));
             headers.add(new BasicHttpHeader("X-Authentication-Token", ((MeteorSession) authHandler.getActiveSession()).getAccessToken().toString()));
         }
 
@@ -85,14 +85,14 @@ public class MeteorSessionHandler implements SessionHandler {
         HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
 
         JsonObject refreshPayload = new JsonObject();
-        refreshPayload.addProperty("user", session.getOwner().getUserId().toString());
+        refreshPayload.addProperty("user", session.getProfile().getId().toString());
         refreshPayload.addProperty("refresh-token", meteorSession.getRefreshToken().toString());
 
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
 
         if (authHandler.getActiveSession() != null) {
-            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getOwner().getUserId().toString()));
+            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getProfile().getId().toString()));
             headers.add(new BasicHttpHeader("X-Authentication-Token", ((MeteorSession) authHandler.getActiveSession()).getAccessToken().toString()));
         }
 
@@ -105,7 +105,7 @@ public class MeteorSessionHandler implements SessionHandler {
 
         Token access = AuthToken.decode(response.getResponseBody().getAsJsonObject("access-token").get("token").getAsString());
 
-        return new MeteorSession(this, session.getOwner(), access, meteorSession.getRefreshToken());
+        return new MeteorSession(this, session.getProfile(), access, meteorSession.getRefreshToken());
     }
 
 }
