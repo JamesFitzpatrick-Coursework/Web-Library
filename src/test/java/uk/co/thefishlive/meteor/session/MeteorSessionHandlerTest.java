@@ -29,8 +29,12 @@ public class MeteorSessionHandlerTest {
     public void testRefresh() throws Exception {
         UserProfile profile = new MeteorUserProfile(AuthToken.decode(TEST_USER_ID));
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
+        authHandler.setActiveSession(session);
+
         assertNotNull(session);
+
         Session refreshedSession = session.refreshSession();
+
         assertNotNull(refreshedSession);
         assertNotEquals(session, refreshedSession);
     }
@@ -39,6 +43,8 @@ public class MeteorSessionHandlerTest {
     public void testValidate() throws Exception {
         UserProfile profile = new MeteorUserProfile(AuthToken.decode(TEST_USER_ID));
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
+        authHandler.setActiveSession(session);
+
         assertTrue(session.isValid());
     }
 
@@ -46,6 +52,8 @@ public class MeteorSessionHandlerTest {
     public void testInvalidate() throws Exception {
         UserProfile profile = new MeteorUserProfile(AuthToken.decode(TEST_USER_ID));
         Session session = authHandler.getLoginHandler().login(profile, "password".toCharArray());
+        authHandler.setActiveSession(session);
+
         assertTrue(session.invalidate());
         assertFalse(session.isValid());
     }
