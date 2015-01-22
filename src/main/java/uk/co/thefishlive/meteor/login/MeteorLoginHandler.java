@@ -45,7 +45,7 @@ public class MeteorLoginHandler implements LoginHandler {
 
         // Build handshake request
         JsonObject handshakePayload = new JsonObject();
-        handshakePayload.addProperty("user", profile.hasId() ? profile.getId().toString() : profile.getDisplayName());
+        handshakePayload.addProperty("user", profile.hasId() ? profile.getId().toString() : profile.getName());
 
         List<HttpHeader> handshakeHeaders = new ArrayList<>();
         handshakeHeaders.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
