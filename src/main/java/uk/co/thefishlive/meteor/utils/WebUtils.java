@@ -42,6 +42,10 @@ public class WebUtils {
         return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/groups/");
     }
 
+    public static URL USER_GROUPS_ADD_ENDPOINT(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/groups/add/");
+    }
+
     public static URL USER_DELETE_ENDPOINT(UserProfile profile) {
         return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/");
     }

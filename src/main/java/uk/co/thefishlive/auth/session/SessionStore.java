@@ -30,4 +30,11 @@ public interface SessionStore {
      */
     public List<HttpHeader> getAuthHeaders();
 
+    /**
+     * Add a listener to listen for active session updates.
+     *
+     * @param listener the listener to register
+     */
+    public void addSessionListener(SessionListener listener);
+
 }

@@ -10,6 +10,7 @@ import uk.co.thefishlive.auth.group.GroupManager;
 import uk.co.thefishlive.auth.login.LoginHandler;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.session.SessionHandler;
+import uk.co.thefishlive.auth.session.SessionListener;
 import uk.co.thefishlive.auth.user.UserManager;
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.meteor.BasicHttpHeader;
@@ -37,6 +38,7 @@ public class MeteorAuthHandler implements AuthHandler {
     private GroupManager groupManager;
     private Session activeSession;
     private Token clientId;
+    private List<SessionListener> listeners = new ArrayList<>();
 
     public MeteorAuthHandler(Proxy proxy) {
         this(proxy, AuthToken.generateRandom("client-id"));
@@ -84,6 +86,11 @@ public class MeteorAuthHandler implements AuthHandler {
     @Override
     public void setActiveSession(Session session) {
         if (!(session instanceof MeteorSession)) throw new IllegalArgumentException("Session is not a valid Meteor session");
+
+        for (SessionListener listener : ImmutableList.copyOf(this.listeners)) {
+            listener.onActiveSessionChanged(session);
+        }
+
         this.activeSession = session;
     }
 
@@ -102,6 +109,11 @@ public class MeteorAuthHandler implements AuthHandler {
         }
 
         return ImmutableList.copyOf(headers);
+    }
+
+    @Override
+    public void addSessionListener(SessionListener listener) {
+        this.listeners.add(listener);
     }
 
     @Override

@@ -66,6 +66,25 @@ public class MeteorUser implements User {
     }
 
     @Override
+    public void addGroup(GroupProfile group) {
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            JsonObject payload = new JsonObject();
+            payload.addProperty("group", group.getIdentifier());
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
+            client.sendRequest(WebUtils.USER_GROUPS_ADD_ENDPOINT(getProfile()), request);
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
+    }
+
+    @Override
     public UserProfile getProfile() {
         return profile;
     }

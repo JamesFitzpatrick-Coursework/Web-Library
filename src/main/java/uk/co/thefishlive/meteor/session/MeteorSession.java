@@ -1,5 +1,6 @@
 package uk.co.thefishlive.meteor.session;
 
+import com.google.common.base.Throwables;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.session.Session;

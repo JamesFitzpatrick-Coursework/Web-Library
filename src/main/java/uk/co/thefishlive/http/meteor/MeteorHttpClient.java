@@ -89,7 +89,7 @@ public class MeteorHttpClient implements HttpClient {
                 try (InputStreamReader reader = new InputStreamReader(connection.getErrorStream())) {
                     JsonParser parser = new JsonParser();
                     JsonObject payload = parser.parse(reader).getAsJsonObject();
-                    System.out.println(payload);
+                    System.err.println(payload);
                     throw new HttpException(payload.getAsJsonObject("payload").get("error").getAsString());
                 }
             }

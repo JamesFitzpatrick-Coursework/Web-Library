@@ -19,4 +19,10 @@ public interface User extends Identifiable<UserProfile>, SettingStore, Permissib
      */
     public List<GroupProfile> getGroups();
 
+    /**
+     * Add this user to a specific group.
+     *
+     * @param group the group to add this user to
+     */
+    public void addGroup(GroupProfile group);
 }
