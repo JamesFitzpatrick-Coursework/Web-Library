@@ -1,8 +1,8 @@
 package uk.co.thefishlive.meteor.user;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Random;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -11,19 +11,19 @@ import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.permission.PermissionRegistry;
 import uk.co.thefishlive.auth.permission.SimplePermission;
+import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.settings.Setting;
 import uk.co.thefishlive.auth.user.User;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.http.exception.HttpException;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
+import uk.co.thefishlive.meteor.login.exception.LoginException;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.settings.StringSetting;
 import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 // We have to run these tests in this exact order or they will fail
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -39,16 +39,20 @@ public class MeteorUserCreateTest {
     public static final Setting<String, String> TEST_SETTING = new StringSetting("test-setting", "test-setting");
     public static final Permission TEST_PERMISSION = PermissionRegistry.getPermission("test-permission-user");
 
+    private static UserProfile updatedProfile;
     private static UserProfile testProfile;
     private static User testUser;
     private static MeteorAuthHandler authHandler;
 
     @BeforeClass
-    public static void setup() throws URISyntaxException {
+    public static void setup() throws IOException, LoginException, URISyntaxException {
         authHandler = new MeteorAuthHandler(ProxyUtils.getSystemProxy());
-        authHandler.setActiveSession(MeteorSession.generateRandomSession(authHandler, new MeteorUserProfile(TEST_USER_ID)));
+        Session session = authHandler.getLoginHandler().login(new MeteorUserProfile(TEST_USER_ID), "password".toCharArray());
+        authHandler.setActiveSession(session);
 
-        testProfile = new MeteorUserProfile("test-user-" + Math.abs(new Random().nextInt()), "test-user");
+        int random = Math.abs(new Random().nextInt());
+        testProfile = new MeteorUserProfile("test-user-" + random, "test-user");
+        updatedProfile = new MeteorUserProfile((String) null, "test-user-updated");
     }
 
     @Test
@@ -61,6 +65,23 @@ public class MeteorUserCreateTest {
     public void test02_LookupUser() throws Exception {
         testUser = authHandler.getUserManager().getUserProfile(testProfile);
         assertEquals(testProfile, testUser.getProfile());
+    }
+
+    @Test
+    public void test03_UpdateName() throws Exception {
+        UserProfile updated = testUser.updateProfile(updatedProfile);
+
+        assertNotEquals(updated, updatedProfile);
+        assertNotEquals(updated, testProfile);
+
+        testProfile = updated;
+    }
+
+
+    @Test
+    public void test04_LookupUser() throws Exception {
+        testUser = authHandler.getUserManager().getUserProfile(testProfile);
+        assertEquals(testProfile.getDisplayName(), updatedProfile.getDisplayName());
     }
 
     @Test

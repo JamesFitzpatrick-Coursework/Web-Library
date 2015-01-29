@@ -20,6 +20,10 @@ public enum RequestType {
      * GET requests should not edit any information on the site and should be
      * cachible by the clients.
      */
-    GET, DELETE;
+    GET,
+
+    DELETE,
+
+    PATCH;
 
 }

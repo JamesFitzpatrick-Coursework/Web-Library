@@ -71,6 +71,11 @@ public class MeteorGroup implements Group {
     }
 
     @Override
+    public GroupProfile updateProfile(GroupProfile update) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean hasPermission(Permission permission) throws IOException {
         HttpClient client = MeteorHttpClient.getInstance();
 

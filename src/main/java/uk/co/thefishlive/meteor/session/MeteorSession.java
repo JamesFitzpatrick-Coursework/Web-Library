@@ -34,6 +34,11 @@ public class MeteorSession implements Session {
         return this.profile;
     }
 
+    @Override
+    public UserProfile updateProfile(UserProfile update) {
+        throw new UnsupportedOperationException("Cannot update the profile on a meteor session");
+    }
+
     public SessionHandler getHandler() {
         return this.handler;
     }

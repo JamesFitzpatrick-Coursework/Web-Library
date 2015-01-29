@@ -85,6 +85,29 @@ public class MeteorUser implements User {
     }
 
     @Override
+    public UserProfile updateProfile(UserProfile profile) {
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            JsonObject payload = new JsonObject();
+            if (profile.hasDisplayName()) payload.addProperty("display-name", profile.getDisplayName());
+            if (profile.hasName()) payload.addProperty("user-name", profile.getName());
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.PATCH, payload, headers);
+            HttpResponse response = client.sendRequest(WebUtils.USER_LOOKUP_ENDPOINT(getProfile()), request);
+
+            return GSON.fromJson(response.getResponseBody().get("profile"), UserProfile.class);
+        } catch (IOException e) {
+            Throwables.propagate(e);
+            return null;
+        }
+    }
+
+    @Override
     public UserProfile getProfile() {
         return profile;
     }
