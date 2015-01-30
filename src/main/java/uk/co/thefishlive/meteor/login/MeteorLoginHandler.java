@@ -41,7 +41,7 @@ public class MeteorLoginHandler implements LoginHandler {
 
     @Override
     public Session login(UserProfile profile, char[] password) throws IOException, LoginException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         // Build handshake request
         JsonObject handshakePayload = new JsonObject();

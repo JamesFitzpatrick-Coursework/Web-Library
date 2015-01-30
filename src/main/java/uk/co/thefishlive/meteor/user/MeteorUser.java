@@ -97,7 +97,7 @@ public class MeteorUser implements User {
             headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
             headers.addAll(this.authHandler.getAuthHeaders());
 
-            HttpRequest request = new MeteorHttpRequest(RequestType.PATCH, payload, headers);
+            HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
             HttpResponse response = client.sendRequest(WebUtils.USER_LOOKUP_ENDPOINT(getProfile()), request);
 
             return GSON.fromJson(response.getResponseBody().get("profile"), UserProfile.class);

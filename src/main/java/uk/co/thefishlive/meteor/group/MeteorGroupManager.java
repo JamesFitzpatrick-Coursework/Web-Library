@@ -49,7 +49,7 @@ public class MeteorGroupManager implements GroupManager {
 
     @Override
     public GroupProfile createGroup(GroupProfile profile) throws IOException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         JsonObject payload = new JsonObject();
         payload.addProperty("group-name", profile.getName());
@@ -71,7 +71,7 @@ public class MeteorGroupManager implements GroupManager {
 
     @Override
     public boolean deleteGroup(GroupProfile profile) throws IOException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
@@ -84,7 +84,7 @@ public class MeteorGroupManager implements GroupManager {
 
     @Override
     public List<GroupProfile> getGroups() throws IOException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));

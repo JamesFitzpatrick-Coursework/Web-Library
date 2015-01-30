@@ -54,7 +54,7 @@ public class MeteorUserManager implements UserManager {
 
     @Override
     public UserProfile createUser(UserProfile profile, char[] password) throws IOException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         JsonObject payload = new JsonObject();
         payload.addProperty("username", profile.getName());
@@ -81,7 +81,7 @@ public class MeteorUserManager implements UserManager {
 
     @Override
     public boolean deleteUser(UserProfile profile) throws IOException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
@@ -98,7 +98,7 @@ public class MeteorUserManager implements UserManager {
 
     @Override
     public List<UserProfile> getUsers() throws IOException {
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
         headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));

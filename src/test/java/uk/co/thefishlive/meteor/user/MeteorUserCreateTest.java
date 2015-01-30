@@ -17,6 +17,7 @@ import uk.co.thefishlive.auth.user.User;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.http.exception.HttpException;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.login.exception.LoginException;
 import uk.co.thefishlive.meteor.session.MeteorSession;
@@ -27,7 +28,7 @@ import static org.junit.Assert.*;
 
 // We have to run these tests in this exact order or they will fail
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MeteorUserCreateTest {
+public class MeteorUserCreateTest extends TestBase {
 
     static {
         PermissionRegistry.registerPermission(new SimplePermission("test-permission-user", "Test Permission"));
@@ -42,14 +43,9 @@ public class MeteorUserCreateTest {
     private static UserProfile updatedProfile;
     private static UserProfile testProfile;
     private static User testUser;
-    private static MeteorAuthHandler authHandler;
 
     @BeforeClass
     public static void setup() throws IOException, LoginException, URISyntaxException {
-        authHandler = new MeteorAuthHandler(ProxyUtils.getSystemProxy());
-        Session session = authHandler.getLoginHandler().login(new MeteorUserProfile(TEST_USER_ID), "password".toCharArray());
-        authHandler.setActiveSession(session);
-
         int random = Math.abs(new Random().nextInt());
         testProfile = new MeteorUserProfile("test-user-" + random, "test-user");
         updatedProfile = new MeteorUserProfile((String) null, "test-user-updated");

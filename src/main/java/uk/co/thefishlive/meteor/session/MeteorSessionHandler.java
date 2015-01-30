@@ -33,7 +33,7 @@ public class MeteorSessionHandler implements SessionHandler {
         if (!(session instanceof MeteorSession)) throw new SessionException("Cannot validate session, not a meteor session.");
         MeteorSession meteorSession = (MeteorSession) session;
 
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         JsonObject refreshPayload = new JsonObject();
         refreshPayload.addProperty("user", session.getProfile().getId().toString());
@@ -53,7 +53,7 @@ public class MeteorSessionHandler implements SessionHandler {
         if (!(session instanceof MeteorSession)) throw new SessionException("Cannot invalidate session, not a meteor session.");
         MeteorSession meteorSession = (MeteorSession) session;
 
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         JsonObject refreshPayload = new JsonObject();
         refreshPayload.addProperty("user", session.getProfile().getId().toString());
@@ -82,7 +82,7 @@ public class MeteorSessionHandler implements SessionHandler {
         if (!(session instanceof MeteorSession)) throw new SessionException("Cannot refresh session, not a meteor session.");
         MeteorSession meteorSession = (MeteorSession) session;
 
-        HttpClient client = new MeteorHttpClient(authHandler.getProxySettings());
+        HttpClient client = MeteorHttpClient.getInstance();
 
         JsonObject refreshPayload = new JsonObject();
         refreshPayload.addProperty("user", session.getProfile().getId().toString());
