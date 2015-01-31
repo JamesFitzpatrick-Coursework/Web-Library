@@ -76,8 +76,8 @@ public class MeteorGroup implements Group {
             HttpClient client = MeteorHttpClient.getInstance();
 
             JsonObject payload = new JsonObject();
-            if (profile.hasDisplayName()) payload.addProperty("display-name", profile.getDisplayName());
-            if (profile.hasName()) payload.addProperty("group-name", profile.getName());
+            if (update.hasDisplayName()) payload.addProperty("display-name", update.getDisplayName());
+            if (update.hasName()) payload.addProperty("group-name", update.getName());
 
             List<HttpHeader> headers = new ArrayList<>();
             headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));

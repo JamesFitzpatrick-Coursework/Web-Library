@@ -49,7 +49,6 @@ public class MeteorGroupCreateTest extends TestBase {
     @Test
     public void test01_CreateGroup() throws Exception {
         testProfile = authHandler.getGroupManager().createGroup(testProfile);
-        System.out.println(testProfile);
         assertNotNull(testProfile);
     }
 
@@ -67,7 +66,6 @@ public class MeteorGroupCreateTest extends TestBase {
         assertNotEquals(updated, testProfile);
 
         testProfile = updated;
-        System.out.println(testProfile);
     }
 
 

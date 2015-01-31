@@ -3,6 +3,7 @@ package uk.co.thefishlive.meteor.login;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.user.MeteorUserProfile;
 
@@ -14,17 +15,10 @@ import java.net.URISyntaxException;
 
 import static org.junit.Assert.*;
 
-public class MeteorLoginHandlerTest {
+public class MeteorLoginHandlerTest extends TestBase {
 
     public static final String TEST_USER_ID = "AE-5CC7BBA3-D631FEB34020F5-18EA0279";
     public static final String TEST_USER_NAME = "admin";
-
-    private MeteorAuthHandler authHandler;
-
-    @Before
-    public void setup() throws URISyntaxException {
-        authHandler = new MeteorAuthHandler(ProxyUtils.getSystemProxy());
-    }
 
     @Test
     public void testLoginById() throws Exception {
