@@ -8,9 +8,6 @@ import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.settings.Setting;
 import uk.co.thefishlive.auth.user.UserProfile;
 
-/**
- * Created by James on 20/11/2014.
- */
 public class WebUtils {
 
     public static final String BASE_URL = "http://auth.thefishlive.co.uk/v1";

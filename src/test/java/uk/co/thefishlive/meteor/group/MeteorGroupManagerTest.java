@@ -9,6 +9,7 @@ import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.user.MeteorUserProfile;
@@ -16,19 +17,10 @@ import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
 import static org.junit.Assert.*;
 
-public class MeteorGroupManagerTest {
+public class MeteorGroupManagerTest extends TestBase {
 
     public static final GroupProfile TEST_GROUP_PROFILE = new MeteorGroupProfile(AuthToken.decode("AF-6C16A21B-5D0CB09D29009B-54B9129F"), "admin", "admin");
     public static final UserProfile TEST_USER_PROFILE = new MeteorUserProfile(AuthToken.decode("AE-5CC7BBA3-D631FEB34020F5-18EA0279"), "admin", "admin");
-
-    private MeteorAuthHandler authHandler;
-
-    @Before
-    public void setup() throws URISyntaxException {
-        authHandler = new MeteorAuthHandler(ProxyUtils.getSystemProxy());
-        Session session = MeteorSession.generateRandomSession(authHandler, TEST_USER_PROFILE);
-        authHandler.setActiveSession(session);
-    }
 
     @Test
     public void testGetUserProfile() throws Exception {

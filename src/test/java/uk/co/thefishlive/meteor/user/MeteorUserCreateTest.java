@@ -77,47 +77,47 @@ public class MeteorUserCreateTest extends TestBase {
     @Test
     public void test04_LookupUser() throws Exception {
         testUser = authHandler.getUserManager().getUserProfile(testProfile);
-        assertEquals(testProfile.getDisplayName(), updatedProfile.getDisplayName());
+        assertEquals(updatedProfile.getDisplayName(), testProfile.getDisplayName());
     }
 
     @Test
-    public void test03_SettingEdit() throws Exception {
+    public void test05_SettingEdit() throws Exception {
         testUser.setSetting(TEST_SETTING);
     }
 
     @Test
-    public void test04_SettingLookup() throws Exception {
+    public void test06_SettingLookup() throws Exception {
         Setting setting = testUser.getSetting(TEST_SETTING.getKey());
         assertEquals(TEST_SETTING, setting);
     }
 
     @Test
-    public void test05_SettingDelete() throws Exception {
+    public void test07_SettingDelete() throws Exception {
         testUser.deleteSetting(TEST_SETTING.getKey());
     }
 
     @Test
-    public void test06_PermissionAdd() throws Exception {
+    public void test08_PermissionAdd() throws Exception {
         testUser.addPermission(TEST_PERMISSION);
     }
 
     @Test
-    public void test07_PermissionCheck() throws Exception {
+    public void test09_PermissionCheck() throws Exception {
         assertTrue(testUser.hasPermission(TEST_PERMISSION));
     }
 
     @Test
-    public void test08_PermissionDelete() throws Exception {
+    public void test10_PermissionDelete() throws Exception {
         testUser.removePermission(TEST_PERMISSION);
     }
 
     @Test
-    public void test09_DeleteUser() throws Exception {
+    public void test11_DeleteUser() throws Exception {
         assertTrue(authHandler.getUserManager().deleteUser(testProfile));
     }
 
     @Test(expected = HttpException.class) // User shouldn't exist any more
-    public void test10_LookupUser()  throws Exception {
+    public void test12_LookupUser()  throws Exception {
         authHandler.getUserManager().getUserProfile(testProfile);
     }
 

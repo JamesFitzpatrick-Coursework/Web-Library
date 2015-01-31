@@ -72,7 +72,25 @@ public class MeteorGroup implements Group {
 
     @Override
     public GroupProfile updateProfile(GroupProfile update) {
-        throw new UnsupportedOperationException();
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            JsonObject payload = new JsonObject();
+            if (profile.hasDisplayName()) payload.addProperty("display-name", profile.getDisplayName());
+            if (profile.hasName()) payload.addProperty("group-name", profile.getName());
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
+            HttpResponse response = client.sendRequest(WebUtils.GROUP_LOOKUP_ENDPOINT(getProfile()), request);
+
+            return GSON.fromJson(response.getResponseBody().get("profile"), GroupProfile.class);
+        } catch (IOException e) {
+            Throwables.propagate(e);
+            return null;
+        }
     }
 
     @Override
