@@ -19,11 +19,6 @@ public class MeteorSessionHandlerTest extends TestBase {
 
     public static final String TEST_USER_ID = "AE-5CC7BBA3-D631FEB34020F5-18EA0279"; // TODO change to a dynamic lookup
 
-    @Before
-    public void setup() throws URISyntaxException {
-        authHandler = new MeteorAuthHandler(ProxyUtils.getSystemProxy());
-    }
-
     @Test
     public void testRefresh() throws Exception {
         Session session = authHandler.getActiveSession();
