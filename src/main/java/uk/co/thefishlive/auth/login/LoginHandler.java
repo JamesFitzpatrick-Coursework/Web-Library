@@ -2,7 +2,7 @@ package uk.co.thefishlive.auth.login;
 
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.session.Session;
-import uk.co.thefishlive.meteor.login.exception.LoginException;
+import uk.co.thefishlive.auth.login.exception.LoginException;
 
 import java.io.IOException;
 

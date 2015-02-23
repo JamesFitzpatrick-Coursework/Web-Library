@@ -3,6 +3,8 @@ package uk.co.thefishlive.meteor.utils;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+
+import uk.co.thefishlive.auth.assessments.AssessmentProfile;
 import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.settings.Setting;
@@ -22,6 +24,8 @@ public class WebUtils {
     public static final URL USER_CREATE_ENDPOINT = constantUrl(USERS_ENDPOINT + "/create");
     public static final URL GROUPS_ENDPOINT = constantUrl(BASE_URL + "/groups");
     public static final URL GROUP_CREATE_ENDPOINT = constantUrl(GROUPS_ENDPOINT + "/create");
+    public static final URL ASSESSMENTS_ENDPOINT = constantUrl(BASE_URL + "/assessments");
+    public static final URL ASSESSMENT_CREATE_ENDPOINT = constantUrl(ASSESSMENTS_ENDPOINT + "/create");
 
     public static URL constantUrl(String url) {
         try {
@@ -67,6 +71,26 @@ public class WebUtils {
         return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/" + setting);
     }
 
+    public static URL USER_ASSIGNMENT_ADD(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/add");
+    }
+
+    public static URL USER_ASSIGNMENT_COMPLETE(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/complete");
+    }
+
+    public static URL USER_ASSIGNMENT_LOOKUP_OUTSTANDING(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/");
+    }
+
+    public static URL USER_ASSIGNMENT_LOOKUP_COMPLETED(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/completed");
+    }
+
+    public static URL USER_ASSIGNMENT_LOOKUP_ALL(UserProfile profile) {
+        return constantUrl(USERS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/all");
+    }
+
     public static URL GROUP_LOOKUP_ENDPOINT(GroupProfile profile) {
         return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/");
     }
@@ -97,5 +121,9 @@ public class WebUtils {
 
     public static URL GROUP_SETTING_LOOKUP_ENDPOINT(GroupProfile profile, String setting) {
         return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/" + setting);
+    }
+
+    public static URL ASSESSMENT_LOOKUP_ENDPOINT(AssessmentProfile profile) {
+        return constantUrl(ASSESSMENTS_ENDPOINT + "/" + profile.getIdentifier() + "/");
     }
 }

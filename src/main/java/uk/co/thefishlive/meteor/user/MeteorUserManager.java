@@ -26,11 +26,9 @@ public class MeteorUserManager implements UserManager {
     private static final Gson GSON = SerialisationUtils.getGsonInstance();
 
     private MeteorAuthHandler authHandler;
-    private Token clientid;
 
-    public MeteorUserManager(MeteorAuthHandler authHandler, Token clientid) {
+    public MeteorUserManager(MeteorAuthHandler authHandler) {
         this.authHandler = authHandler;
-        this.clientid = clientid;
     }
 
     @Override
@@ -38,12 +36,7 @@ public class MeteorUserManager implements UserManager {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", getClientId().toString()));
-
-        if (this.authHandler.getActiveSession() != null) {
-            headers.add(new BasicHttpHeader("X-Authentication-User", this.authHandler.getActiveSession().getProfile().getIdentifier()));
-            headers.add(new BasicHttpHeader("X-Authentication-Token", ((MeteorSession) this.authHandler.getActiveSession()).getAccessToken().toString()));
-        }
+        headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
         HttpResponse response = client.sendRequest(WebUtils.USER_LOOKUP_ENDPOINT(user), request);
@@ -65,12 +58,7 @@ public class MeteorUserManager implements UserManager {
         }
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
-
-        if (authHandler.getActiveSession() != null) {
-            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getProfile().getId().toString()));
-            headers.add(new BasicHttpHeader("X-Authentication-Token", ((MeteorSession) authHandler.getActiveSession()).getAccessToken().toString()));
-        }
+        headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
         HttpResponse response = client.sendRequest(WebUtils.USER_CREATE_ENDPOINT, request);
@@ -84,12 +72,7 @@ public class MeteorUserManager implements UserManager {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
-
-        if (authHandler.getActiveSession() != null) {
-            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getProfile().getId().toString()));
-            headers.add(new BasicHttpHeader("X-Authentication-Token", ((MeteorSession) authHandler.getActiveSession()).getAccessToken().toString()));
-        }
+        headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
         HttpResponse response = client.sendRequest(WebUtils.USER_DELETE_ENDPOINT(profile), request);
@@ -101,12 +84,7 @@ public class MeteorUserManager implements UserManager {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
-
-        if (authHandler.getActiveSession() != null) {
-            headers.add(new BasicHttpHeader("X-Authentication-User", authHandler.getActiveSession().getProfile().getId().toString()));
-            headers.add(new BasicHttpHeader("X-Authentication-Token", ((MeteorSession) authHandler.getActiveSession()).getAccessToken().toString()));
-        }
+        headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
         HttpResponse response = client.sendRequest(WebUtils.USERS_ENDPOINT, request);
@@ -119,10 +97,6 @@ public class MeteorUserManager implements UserManager {
         }
 
         return profiles;
-    }
-
-    public Token getClientId() {
-        return clientid;
     }
 
     public AuthHandler getAuthHandler() {

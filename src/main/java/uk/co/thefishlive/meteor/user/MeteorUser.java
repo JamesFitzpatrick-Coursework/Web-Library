@@ -2,6 +2,7 @@ package uk.co.thefishlive.meteor.user;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -10,6 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.thefishlive.auth.assessments.Assessment;
+import uk.co.thefishlive.auth.assessments.AssessmentProfile;
+import uk.co.thefishlive.auth.assessments.assignments.Assignment;
+import uk.co.thefishlive.auth.assessments.assignments.AssignmentResult;
 import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.settings.Setting;
@@ -20,13 +25,14 @@ import uk.co.thefishlive.http.meteor.BasicHttpHeader;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.json.GsonInstance;
 import uk.co.thefishlive.meteor.settings.StringSetting;
 import uk.co.thefishlive.meteor.utils.SerialisationUtils;
 import uk.co.thefishlive.meteor.utils.WebUtils;
 
 public class MeteorUser implements User {
 
-    private static final Gson GSON = SerialisationUtils.getGsonInstance();
+    private static final Gson GSON = GsonInstance.get();
 
     private final MeteorAuthHandler authHandler;
     private UserProfile profile;
@@ -46,7 +52,6 @@ public class MeteorUser implements User {
                 HttpClient client = MeteorHttpClient.getInstance();
 
                 List<HttpHeader> headers = new ArrayList<>();
-                headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
                 headers.addAll(this.authHandler.getAuthHeaders());
 
                 HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
@@ -74,7 +79,6 @@ public class MeteorUser implements User {
             payload.addProperty("group", group.getIdentifier());
 
             List<HttpHeader> headers = new ArrayList<>();
-            headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
             headers.addAll(this.authHandler.getAuthHeaders());
 
             HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -94,7 +98,6 @@ public class MeteorUser implements User {
             if (profile.hasName()) payload.addProperty("user-name", profile.getName());
 
             List<HttpHeader> headers = new ArrayList<>();
-            headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
             headers.addAll(this.authHandler.getAuthHeaders());
 
             HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -117,7 +120,6 @@ public class MeteorUser implements User {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
@@ -135,7 +137,6 @@ public class MeteorUser implements User {
         payload.addProperty("permission", permission.getKey());
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -147,7 +148,6 @@ public class MeteorUser implements User {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
@@ -164,7 +164,6 @@ public class MeteorUser implements User {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
@@ -182,7 +181,6 @@ public class MeteorUser implements User {
         payload.add("setting", GSON.toJsonTree(setting));
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -194,10 +192,94 @@ public class MeteorUser implements User {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
         client.sendRequest(WebUtils.USER_SETTING_LOOKUP_ENDPOINT(getProfile(), key), request);
+    }
+
+    @Override
+    public List<Assignment> getOutstandingAssignments() {
+        List<Assignment> assignments = Lists.newArrayList();
+
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
+            HttpResponse response = client.sendRequest(WebUtils.USER_ASSIGNMENT_LOOKUP_OUTSTANDING(getProfile()), request);
+
+            JsonObject payload = response.getResponseBody();
+
+            for (JsonElement element : payload.getAsJsonArray("assignments")) {
+                assignments.add(GSON.fromJson(element, Assignment.class));
+            }
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
+
+        return assignments;
+    }
+
+    @Override
+    public List<Assignment> getAllAssignments() {
+        List<Assignment> assignments = Lists.newArrayList();
+
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
+            HttpResponse response = client.sendRequest(WebUtils.USER_ASSIGNMENT_LOOKUP_ALL(getProfile()), request);
+
+            JsonObject payload = response.getResponseBody();
+
+            for (JsonElement element : payload.getAsJsonArray("assignments")) {
+                assignments.add(GSON.fromJson(element, Assignment.class));
+            }
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
+
+        return assignments;
+    }
+
+    @Override
+    public List<Assignment> getCompletedAssignments() {
+        List<Assignment> assignments = Lists.newArrayList();
+
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
+            HttpResponse response = client.sendRequest(WebUtils.USER_ASSIGNMENT_LOOKUP_COMPLETED(getProfile()), request);
+
+            JsonObject payload = response.getResponseBody();
+
+            for (JsonElement element : payload.getAsJsonArray("assignments")) {
+                assignments.add(GSON.fromJson(element, Assignment.class));
+            }
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
+
+        return assignments;
+    }
+
+    @Override
+    public void assignAssessment(Assignment assignment) {
+
+    }
+
+    @Override
+    public AssignmentResult submitAssessment(Assignment assignment, Assessment assessment) {
+        return null;
     }
 }

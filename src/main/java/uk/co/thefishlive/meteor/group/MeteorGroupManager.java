@@ -25,11 +25,9 @@ public class MeteorGroupManager implements GroupManager {
     private static final Gson GSON = SerialisationUtils.getGsonInstance();
 
     private MeteorAuthHandler authHandler;
-    private Token clientid;
 
-    public MeteorGroupManager(MeteorAuthHandler authHandler, Token clientid) {
+    public MeteorGroupManager(MeteorAuthHandler authHandler) {
         this.authHandler = authHandler;
-        this.clientid = clientid;
     }
 
     @Override
@@ -37,7 +35,6 @@ public class MeteorGroupManager implements GroupManager {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", clientid.toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
@@ -59,7 +56,6 @@ public class MeteorGroupManager implements GroupManager {
         }
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -74,7 +70,6 @@ public class MeteorGroupManager implements GroupManager {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
@@ -87,7 +82,6 @@ public class MeteorGroupManager implements GroupManager {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);

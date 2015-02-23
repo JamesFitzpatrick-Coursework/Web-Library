@@ -5,6 +5,8 @@ import com.google.common.net.HttpHeaders;
 import java.util.ArrayList;
 import java.util.List;
 import uk.co.thefishlive.auth.AuthHandler;
+import uk.co.thefishlive.auth.assessments.AssessmentFactory;
+import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.group.GroupManager;
 import uk.co.thefishlive.auth.login.LoginHandler;
@@ -14,6 +16,8 @@ import uk.co.thefishlive.auth.session.SessionListener;
 import uk.co.thefishlive.auth.user.UserManager;
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.meteor.BasicHttpHeader;
+import uk.co.thefishlive.meteor.assessments.MeteorAssessmentFactory;
+import uk.co.thefishlive.meteor.assessments.MeteorAssessmentManager;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.data.AuthToken.AuthTokenHandler;
 import uk.co.thefishlive.meteor.group.MeteorGroupManager;
@@ -32,10 +36,13 @@ public class MeteorAuthHandler implements AuthHandler {
 
     private final Gson gson;
     private final Proxy proxy;
+
+    private AssessmentManager assessmentManager;
     private LoginHandler loginHandler;
     private SessionHandler sessionHandler;
     private UserManager userManager;
     private GroupManager groupManager;
+
     private Session activeSession;
     private Token clientId;
     private List<SessionListener> listeners = new ArrayList<>();
@@ -49,10 +56,11 @@ public class MeteorAuthHandler implements AuthHandler {
         this.proxy = proxy;
 
         this.clientId = clientId;
-        this.loginHandler = new MeteorLoginHandler(this, clientId);
-        this.sessionHandler = new MeteorSessionHandler(this, clientId);
-        this.userManager = new MeteorUserManager(this, clientId);
-        this.groupManager = new MeteorGroupManager(this, clientId);
+        this.loginHandler = new MeteorLoginHandler(this);
+        this.sessionHandler = new MeteorSessionHandler(this);
+        this.userManager = new MeteorUserManager(this);
+        this.groupManager = new MeteorGroupManager(this);
+        this.assessmentManager = new MeteorAssessmentManager(this);
     }
 
     public Gson getGsonInstance() {
@@ -84,6 +92,11 @@ public class MeteorAuthHandler implements AuthHandler {
     }
 
     @Override
+    public AssessmentManager getAssessmentManager() {
+        return this.assessmentManager;
+    }
+
+    @Override
     public void setActiveSession(Session session) {
         if (!(session instanceof MeteorSession)) throw new IllegalArgumentException("Session is not a valid Meteor session");
 
@@ -102,6 +115,8 @@ public class MeteorAuthHandler implements AuthHandler {
     @Override
     public List<HttpHeader> getAuthHeaders() {
         List<HttpHeader> headers = new ArrayList<>();
+
+        headers.add(new BasicHttpHeader("X-Client", this.getClientId().toString()));
 
         if (this.getActiveSession() != null) {
             headers.add(new BasicHttpHeader("X-Authentication-User", this.getActiveSession().getProfile().getIdentifier()));

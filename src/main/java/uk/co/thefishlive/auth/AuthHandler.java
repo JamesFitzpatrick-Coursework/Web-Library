@@ -1,5 +1,7 @@
 package uk.co.thefishlive.auth;
 
+import uk.co.thefishlive.auth.assessments.AssessmentFactory;
+import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.group.GroupManager;
 import uk.co.thefishlive.auth.login.LoginHandler;
 import uk.co.thefishlive.auth.session.SessionHandler;
@@ -39,5 +41,12 @@ public interface AuthHandler extends SessionStore, Client {
      * @return the current group manager instance
      */
     public GroupManager getGroupManager();
+
+    /**
+     * Gets the current assessment manager.
+     *
+     * @return the current assessment manager
+     */
+    public AssessmentManager getAssessmentManager();
 
 }

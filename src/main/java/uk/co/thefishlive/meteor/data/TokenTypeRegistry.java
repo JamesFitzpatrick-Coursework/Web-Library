@@ -17,11 +17,17 @@ public class TokenTypeRegistry {
         registerType(0xAD, "refresh-token");
         registerType(0xAE, "user-id");
         registerType(0xAF, "group-id");
+
+        registerType(0xBA, "assessment-id");
+        registerType(0xBB, "question-id");
+        registerType(0xBC, "answer-id");
     }
 
     public static void registerType(int code, String name) {
-        Preconditions.checkArgument(!typesById.containsKey(code),
-                String.format("Cannot redeclare token type code (attempted to register %d (%s), but its already registered as %s)", code, name, typesById.get(code)));
+        Preconditions.checkArgument(
+                !typesById.containsKey(code),
+                String.format("Cannot redeclare token type code (attempted to register %d (%s), but its already registered as %s)", code, name, typesById.get(code))
+        );
 
         typesById.put(code, name);
         typesByName.put(name, code);

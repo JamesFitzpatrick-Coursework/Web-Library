@@ -2,7 +2,7 @@ package uk.co.thefishlive.auth.session;
 
 import uk.co.thefishlive.auth.data.Identifiable;
 import uk.co.thefishlive.auth.user.UserProfile;
-import uk.co.thefishlive.meteor.session.exception.SessionException;
+import uk.co.thefishlive.auth.session.exception.SessionException;
 
 import java.io.IOException;
 

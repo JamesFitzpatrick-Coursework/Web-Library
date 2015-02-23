@@ -4,21 +4,21 @@ import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.login.LoginHandler;
 import uk.co.thefishlive.auth.session.Session;
-import uk.co.thefishlive.http.*;
-import uk.co.thefishlive.http.meteor.BasicHttpHeader;
+import uk.co.thefishlive.http.HttpClient;
+import uk.co.thefishlive.http.HttpHeader;
+import uk.co.thefishlive.http.HttpRequest;
+import uk.co.thefishlive.http.HttpResponse;
+import uk.co.thefishlive.http.RequestType;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.user.MeteorUserProfile;
-import uk.co.thefishlive.meteor.json.MeteorUserProfileAdapter;
-import uk.co.thefishlive.meteor.login.exception.LoginException;
+import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 
 import static uk.co.thefishlive.meteor.utils.WebUtils.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -27,16 +27,10 @@ import java.util.List;
 
 public class MeteorLoginHandler implements LoginHandler {
 
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(MeteorUserProfile.class, new MeteorUserProfileAdapter())
-            .create();
-
     private final MeteorAuthHandler authHandler;
-    private final Token clientid;
 
-    public MeteorLoginHandler(MeteorAuthHandler authHandler, Token clientid) {
+    public MeteorLoginHandler(MeteorAuthHandler authHandler) {
         this.authHandler = authHandler;
-        this.clientid = clientid;
     }
 
     @Override
@@ -48,7 +42,7 @@ public class MeteorLoginHandler implements LoginHandler {
         handshakePayload.addProperty("user", profile.hasId() ? profile.getId().toString() : profile.getName());
 
         List<HttpHeader> handshakeHeaders = new ArrayList<>();
-        handshakeHeaders.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
+        handshakeHeaders.addAll(authHandler.getAuthHeaders());
 
         HttpRequest handshake = new MeteorHttpRequest(RequestType.POST, handshakePayload, handshakeHeaders);
 
@@ -65,7 +59,7 @@ public class MeteorLoginHandler implements LoginHandler {
         profile = this.authHandler.getGsonInstance().fromJson(handshakeResponse.getResponseBody().get("user"), MeteorUserProfile.class);
 
         // Check for client id validity
-        if (!clientid.equals(this.clientid)) {
+        if (!clientid.equals(this.authHandler.getClientId())) {
             throw new LoginException("Invalid client id returned by server");
         }
 
@@ -76,7 +70,7 @@ public class MeteorLoginHandler implements LoginHandler {
         loginPayload.addProperty("request-token", requestToken.toString());
 
         List<HttpHeader> loginHeaders = new ArrayList<>();
-        loginHeaders.add(new BasicHttpHeader("X-Client", this.clientid.toString()));
+        loginHeaders.addAll(authHandler.getAuthHeaders());
 
         HttpRequest login = new MeteorHttpRequest(RequestType.POST, loginPayload, loginHeaders);
 
@@ -93,7 +87,7 @@ public class MeteorLoginHandler implements LoginHandler {
         Token refreshToken = AuthToken.decode(loginResponse.getResponseBody().getAsJsonObject("refresh-token").get("token").getAsString());
 
         // Check for client id validity
-        if (!clientid.equals(this.clientid)) {
+        if (!clientid.equals(this.authHandler.getClientId())) {
             throw new LoginException("Invalid client id returned by server");
         }
 

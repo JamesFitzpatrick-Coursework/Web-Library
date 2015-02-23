@@ -11,18 +11,14 @@ import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.permission.PermissionRegistry;
 import uk.co.thefishlive.auth.permission.SimplePermission;
-import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.settings.Setting;
 import uk.co.thefishlive.auth.user.User;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.http.exception.HttpException;
-import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.login.exception.LoginException;
-import uk.co.thefishlive.meteor.session.MeteorSession;
+import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.meteor.settings.StringSetting;
-import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
 import static org.junit.Assert.*;
 

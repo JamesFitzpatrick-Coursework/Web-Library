@@ -1,4 +1,4 @@
-package uk.co.thefishlive.meteor.session.exception;
+package uk.co.thefishlive.auth.session.exception;
 
 public class SessionException extends Exception {
 

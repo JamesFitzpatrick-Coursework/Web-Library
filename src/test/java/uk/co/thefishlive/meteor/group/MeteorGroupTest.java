@@ -4,6 +4,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.thefishlive.auth.group.Group;
+import uk.co.thefishlive.auth.group.member.GroupMemberProfile;
 import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.meteor.TestBase;
 
@@ -21,7 +22,7 @@ public class MeteorGroupTest extends TestBase {
 
     @Test
     public void testGetGroups() throws Exception {
-        List<UserProfile> users = group.getUsers();
+        List<GroupMemberProfile> users = group.getUsers();
         assertTrue(users.size() > 0);
         System.out.println(users);
     }

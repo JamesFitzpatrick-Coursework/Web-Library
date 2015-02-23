@@ -1,4 +1,4 @@
-package uk.co.thefishlive.meteor.login.exception;
+package uk.co.thefishlive.auth.login.exception;
 
 public class LoginException extends Exception {
 

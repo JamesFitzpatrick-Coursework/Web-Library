@@ -8,8 +8,14 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.thefishlive.auth.assessments.Assessment;
+import uk.co.thefishlive.auth.assessments.AssessmentProfile;
+import uk.co.thefishlive.auth.assessments.assignments.Assignment;
+import uk.co.thefishlive.auth.assessments.assignments.AssignmentResult;
 import uk.co.thefishlive.auth.group.Group;
 import uk.co.thefishlive.auth.group.GroupProfile;
+import uk.co.thefishlive.auth.group.member.GroupMemberProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.settings.Setting;
 import uk.co.thefishlive.auth.user.User;
@@ -30,7 +36,7 @@ public class MeteorGroup implements Group {
 
     private final MeteorAuthHandler authHandler;
     private GroupProfile profile;
-    private List<UserProfile> groups;
+    private List<GroupMemberProfile> groups;
 
     public MeteorGroup(MeteorAuthHandler authHandler, GroupProfile profile) {
         this.authHandler = authHandler;
@@ -38,7 +44,7 @@ public class MeteorGroup implements Group {
     }
 
     @Override
-    public List<UserProfile> getUsers() {
+    public List<GroupMemberProfile> getUsers() {
         if (groups == null) {
             groups = new ArrayList<>();
 
@@ -80,7 +86,6 @@ public class MeteorGroup implements Group {
             if (update.hasName()) payload.addProperty("group-name", update.getName());
 
             List<HttpHeader> headers = new ArrayList<>();
-            headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
             headers.addAll(this.authHandler.getAuthHeaders());
 
             HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -98,7 +103,6 @@ public class MeteorGroup implements Group {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
@@ -116,7 +120,6 @@ public class MeteorGroup implements Group {
         payload.addProperty("permission", permission.getKey());
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -128,7 +131,6 @@ public class MeteorGroup implements Group {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
@@ -145,7 +147,6 @@ public class MeteorGroup implements Group {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
@@ -163,7 +164,6 @@ public class MeteorGroup implements Group {
         payload.add("setting", GSON.toJsonTree(setting));
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
@@ -175,10 +175,34 @@ public class MeteorGroup implements Group {
         HttpClient client = MeteorHttpClient.getInstance();
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.add(new BasicHttpHeader("X-Client", this.authHandler.getClientId().toString()));
         headers.addAll(this.authHandler.getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
         client.sendRequest(WebUtils.GROUP_SETTING_LOOKUP_ENDPOINT(getProfile(), key), request);
+    }
+
+    @Override
+    public List<Assignment> getOutstandingAssignments() {
+        return null;
+    }
+
+    @Override
+    public List<Assignment> getAllAssignments() {
+        return null;
+    }
+
+    @Override
+    public List<Assignment> getCompletedAssignments() {
+        return null;
+    }
+
+    @Override
+    public void assignAssessment(Assignment assignment) {
+
+    }
+
+    @Override
+    public AssignmentResult submitAssessment(Assignment assignment, Assessment assessment) {
+        return null;
     }
 }
