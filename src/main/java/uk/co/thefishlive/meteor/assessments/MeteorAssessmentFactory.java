@@ -9,10 +9,10 @@ import uk.co.thefishlive.meteor.assessments.questions.multichoice.MeteorMulticho
 
 public class MeteorAssessmentFactory implements AssessmentFactory {
 
-    private AuthHandler authHandler;
+    private MeteorAssessmentManager manager;
 
-    public MeteorAssessmentFactory(AuthHandler authHandler) {
-        this.authHandler = authHandler;
+    public MeteorAssessmentFactory(MeteorAssessmentManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class MeteorAssessmentFactory implements AssessmentFactory {
         }
     }
 
-    public AuthHandler getAuthHandler() {
-        return this.authHandler;
+    public MeteorAssessmentManager getAssessmentManager() {
+        return this.manager;
     }
 }

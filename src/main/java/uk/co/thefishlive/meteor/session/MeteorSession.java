@@ -7,6 +7,7 @@ import uk.co.thefishlive.auth.session.SessionHandler;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.auth.session.exception.SessionException;
+import uk.co.thefishlive.meteor.json.annotations.Internal;
 
 import java.io.IOException;
 
@@ -15,7 +16,9 @@ import java.io.IOException;
  */
 public class MeteorSession implements Session {
 
+    @Internal
     private SessionHandler handler;
+
     private UserProfile profile;
     private Token access;
     private Token refresh;

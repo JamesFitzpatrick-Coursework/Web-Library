@@ -25,6 +25,7 @@ import uk.co.thefishlive.http.meteor.BasicHttpHeader;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.settings.StringSetting;
 import uk.co.thefishlive.meteor.utils.SerialisationUtils;
@@ -34,7 +35,9 @@ public class MeteorGroup implements Group {
 
     private static final Gson GSON = SerialisationUtils.getGsonInstance();
 
+    @Internal
     private final MeteorAuthHandler authHandler;
+
     private GroupProfile profile;
     private List<GroupMemberProfile> groups;
 

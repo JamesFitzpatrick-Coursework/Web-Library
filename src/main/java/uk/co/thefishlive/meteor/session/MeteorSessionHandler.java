@@ -9,6 +9,7 @@ import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.auth.session.exception.SessionException;
+import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.utils.WebUtils;
 
 import com.google.gson.JsonObject;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class MeteorSessionHandler implements SessionHandler {
 
+    @Internal
     private final MeteorAuthHandler authHandler;
 
     public MeteorSessionHandler(MeteorAuthHandler authHandler) {

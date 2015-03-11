@@ -16,6 +16,7 @@ import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.auth.assessments.exception.AssessmentCreateException;
 import uk.co.thefishlive.meteor.json.GsonInstance;
+import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.utils.WebUtils;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class MeteorAssessmentBuilder implements AssessmentBuilder {
 
+    @Internal
     private final MeteorAssessmentFactory factory;
 
     private List<Question> questions = Lists.newArrayList();
@@ -51,6 +53,7 @@ public class MeteorAssessmentBuilder implements AssessmentBuilder {
     @Override
     public Assessment build() throws IOException, AssessmentCreateException {
         Assessment assessment = new MeteorAssessment(
+                factory.getAssessmentManager(),
                 new MeteorAssessmentProfile(null, this.name, this.name),
                 questions
         );
@@ -61,7 +64,7 @@ public class MeteorAssessmentBuilder implements AssessmentBuilder {
         payload.add("assessment", GsonInstance.get().toJsonTree(assessment));
 
         List<HttpHeader> headers = new ArrayList<>();
-        headers.addAll(this.factory.getAuthHandler().getAuthHeaders());
+        headers.addAll(this.factory.getAssessmentManager().getAuthHandler().getAuthHeaders());
 
         HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
         HttpResponse response = client.sendRequest(WebUtils.ASSESSMENT_CREATE_ENDPOINT, request);

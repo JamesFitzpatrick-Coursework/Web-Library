@@ -13,6 +13,7 @@ import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
+import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.user.MeteorUserProfile;
 import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.meteor.session.MeteorSession;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class MeteorLoginHandler implements LoginHandler {
 
+    @Internal
     private final MeteorAuthHandler authHandler;
 
     public MeteorLoginHandler(MeteorAuthHandler authHandler) {

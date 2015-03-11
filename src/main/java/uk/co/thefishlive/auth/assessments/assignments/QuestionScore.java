@@ -1,7 +1,7 @@
 package uk.co.thefishlive.auth.assessments.assignments;
 
 /**
- * Represents the score achived on a specific question of an assessment
+ * Represents the score achieved on a specific question of an assessment
  */
 public interface QuestionScore {
 

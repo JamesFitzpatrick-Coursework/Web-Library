@@ -17,6 +17,7 @@ import uk.co.thefishlive.http.meteor.BasicHttpHeader;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.utils.SerialisationUtils;
 import uk.co.thefishlive.meteor.utils.WebUtils;
@@ -25,6 +26,7 @@ public class MeteorUserManager implements UserManager {
 
     private static final Gson GSON = SerialisationUtils.getGsonInstance();
 
+    @Internal
     private MeteorAuthHandler authHandler;
 
     public MeteorUserManager(MeteorAuthHandler authHandler) {

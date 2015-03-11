@@ -17,7 +17,6 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class AuthToken implements Token {
 

@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URL;
 
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
+import uk.co.thefishlive.auth.assessments.assignments.Assignment;
 import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.settings.Setting;
