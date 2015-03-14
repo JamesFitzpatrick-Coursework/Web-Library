@@ -11,7 +11,7 @@ import java.util.List;
 public class MeteorMultichoiceQuestion extends MeteorQuestion<Integer> implements MultichoiceQuestion {
 
     private final List<Option> options;
-    private Integer answer;
+    private Integer answer = -1;
 
     public MeteorMultichoiceQuestion(Token id, int questionNumber, String question, List<Option> options) {
         super(id, questionNumber, question);
@@ -25,6 +25,10 @@ public class MeteorMultichoiceQuestion extends MeteorQuestion<Integer> implement
 
     @Override
     public Integer getCurrentAnswer() {
+        if (this.answer == null) {
+            return -1;
+        }
+
         return this.answer;
     }
 
@@ -35,11 +39,23 @@ public class MeteorMultichoiceQuestion extends MeteorQuestion<Integer> implement
 
     @Override
     public boolean isAnswered() {
-        return this.answer == -1;
+        return getCurrentAnswer() != -1;
     }
 
     @Override
     public QuestionType getType() {
         return QuestionType.MULTI_CHOICE;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("MeteorMultichoiceQuestion{");
+        sb.append("question-id=").append(id.toString());
+        sb.append(", question=").append(question);
+        sb.append(", questionNumber=").append(questionNumber);
+        sb.append(", options=").append(options);
+        sb.append(", answer=").append(answer);
+        sb.append('}');
+        return sb.toString();
     }
 }

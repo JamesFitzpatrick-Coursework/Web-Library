@@ -27,4 +27,42 @@ public class MeteorOption implements Option {
     public String getText() {
         return this.text;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        MeteorOption that = (MeteorOption) o;
+
+        if (id != that.id) {
+            return false;
+        }
+        if (text != null ? !text.equals(that.text) : that.text != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        return result;
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("MeteorOption{");
+        sb.append("id=").append(id);
+        sb.append(", text='").append(text).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

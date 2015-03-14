@@ -21,6 +21,7 @@ public class TokenTypeRegistry {
         registerType(0xBA, "assessment-id");
         registerType(0xBB, "question-id");
         registerType(0xBC, "answer-id");
+        registerType(0xBD, "assignment-id");
     }
 
     public static void registerType(int code, String name) {

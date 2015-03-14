@@ -325,12 +325,12 @@ public class MeteorUser implements User {
             );
 
             JsonObject payload = new JsonObject();
-            payload.addProperty("assignment", assignment.getAssessmentProfile().getId().toString());
+            payload.addProperty("assignment", assignment.getAssignmentId().toString());
             payload.add("answers", answers);
 
 
             HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
-            HttpResponse response = client.sendRequest(WebUtils.USER_ASSIGNMENT_ADD(getProfile()), request);
+            HttpResponse response = client.sendRequest(WebUtils.USER_ASSIGNMENT_COMPLETE(getProfile()), request);
 
             JsonObject responseBody = response.getResponseBody();
             Map<Integer, QuestionScore> scores = Maps.newHashMap();

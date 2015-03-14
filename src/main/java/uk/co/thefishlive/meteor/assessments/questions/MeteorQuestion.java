@@ -7,10 +7,10 @@ import uk.co.thefishlive.auth.data.Token;
 public abstract class MeteorQuestion<A> implements Question<A> {
 
     @SerializedName("question-id")
-    private final Token id;
+    protected final Token id;
     @SerializedName("question-number")
-    private final int questionNumber;
-    private final String question;
+    protected final int questionNumber;
+    protected final String question;
 
     public MeteorQuestion(Token id, int questionNumber, String question) {
         this.id = id;
