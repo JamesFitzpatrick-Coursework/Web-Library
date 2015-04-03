@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
+
 import uk.co.thefishlive.meteor.json.JsonAdapter;
 
 import java.lang.reflect.Type;

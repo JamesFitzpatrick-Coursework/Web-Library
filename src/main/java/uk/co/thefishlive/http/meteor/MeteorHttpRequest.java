@@ -2,11 +2,11 @@ package uk.co.thefishlive.http.meteor;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
+
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpRequest;
 import uk.co.thefishlive.http.RequestType;
-
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;

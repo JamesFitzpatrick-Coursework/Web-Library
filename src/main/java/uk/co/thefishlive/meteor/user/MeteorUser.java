@@ -8,24 +8,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import uk.co.thefishlive.auth.assessments.Assessment;
-import uk.co.thefishlive.auth.assessments.AssessmentProfile;
 import uk.co.thefishlive.auth.assessments.assignments.Assignment;
 import uk.co.thefishlive.auth.assessments.assignments.AssignmentResult;
 import uk.co.thefishlive.auth.assessments.assignments.QuestionScore;
-import uk.co.thefishlive.auth.assessments.questions.Question;
 import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.settings.Setting;
 import uk.co.thefishlive.auth.user.User;
 import uk.co.thefishlive.auth.user.UserProfile;
-import uk.co.thefishlive.http.*;
-import uk.co.thefishlive.http.meteor.BasicHttpHeader;
+import uk.co.thefishlive.http.HttpClient;
+import uk.co.thefishlive.http.HttpHeader;
+import uk.co.thefishlive.http.HttpRequest;
+import uk.co.thefishlive.http.HttpResponse;
+import uk.co.thefishlive.http.RequestType;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
@@ -36,8 +32,12 @@ import uk.co.thefishlive.meteor.assessments.assignments.MeteorQuestionScore;
 import uk.co.thefishlive.meteor.json.GsonInstance;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.settings.StringSetting;
-import uk.co.thefishlive.meteor.utils.SerialisationUtils;
 import uk.co.thefishlive.meteor.utils.WebUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MeteorUser implements User {
 
@@ -104,8 +104,12 @@ public class MeteorUser implements User {
             HttpClient client = MeteorHttpClient.getInstance();
 
             JsonObject payload = new JsonObject();
-            if (profile.hasDisplayName()) payload.addProperty("display-name", profile.getDisplayName());
-            if (profile.hasName()) payload.addProperty("user-name", profile.getName());
+            if (profile.hasDisplayName()) {
+                payload.addProperty("display-name", profile.getDisplayName());
+            }
+            if (profile.hasName()) {
+                payload.addProperty("user-name", profile.getName());
+            }
 
             List<HttpHeader> headers = new ArrayList<>();
             headers.addAll(this.authHandler.getAuthHeaders());
@@ -319,15 +323,14 @@ public class MeteorUser implements User {
 
             JsonObject answers = new JsonObject();
             assessment.getQuestions().stream().forEach(question -> answers
-                .addProperty(
-                    question.getId().toString(),
-                    String.valueOf(question.getCurrentAnswer()))
+                                                           .addProperty(
+                                                               question.getId().toString(),
+                                                               String.valueOf(question.getCurrentAnswer()))
             );
 
             JsonObject payload = new JsonObject();
             payload.addProperty("assignment", assignment.getAssignmentId().toString());
             payload.add("answers", answers);
-
 
             HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
             HttpResponse response = client.sendRequest(WebUtils.USER_ASSIGNMENT_COMPLETE(getProfile()), request);

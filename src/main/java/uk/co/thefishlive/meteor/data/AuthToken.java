@@ -1,7 +1,5 @@
 package uk.co.thefishlive.meteor.data;
 
-import uk.co.thefishlive.auth.data.Token;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
@@ -13,6 +11,8 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import uk.co.thefishlive.auth.data.Token;
+
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -21,7 +21,7 @@ import java.util.Random;
 public class AuthToken implements Token {
 
     private static final int TOKEN_LENGTH = 16;
-    private static final int[] FORMAT = new int[] { 1, 4, 7, 4 };
+    private static final int[] FORMAT = new int[]{1, 4, 7, 4};
 
     static {
         Preconditions.checkArgument(TOKEN_LENGTH == FORMAT[0] + FORMAT[1] + FORMAT[2] + FORMAT[3]);
@@ -105,8 +105,12 @@ public class AuthToken implements Token {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         AuthToken authToken = (AuthToken) o;
 
@@ -153,7 +157,7 @@ public class AuthToken implements Token {
             tokenParts[i] = new byte[parts[i].length() / 2];
             j = 0;
 
-            while(itr.hasNext()) {
+            while (itr.hasNext()) {
                 String current = itr.next();
                 tokenParts[i][j++] = Integer.valueOf(current, 16).byteValue();
             }

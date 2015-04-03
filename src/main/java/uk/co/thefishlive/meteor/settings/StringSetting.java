@@ -3,6 +3,7 @@ package uk.co.thefishlive.meteor.settings;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+
 import uk.co.thefishlive.auth.settings.Setting;
 
 public class StringSetting implements Setting<String, String> {
@@ -35,13 +36,21 @@ public class StringSetting implements Setting<String, String> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         StringSetting that = (StringSetting) o;
 
-        if (!key.equals(that.key)) return false;
-        if (!value.equals(that.value)) return false;
+        if (!key.equals(that.key)) {
+            return false;
+        }
+        if (!value.equals(that.value)) {
+            return false;
+        }
 
         return true;
     }
@@ -56,8 +65,8 @@ public class StringSetting implements Setting<String, String> {
     @Override
     public String toString() {
         return "StringSetting{" +
-                "key='" + key + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+               "key='" + key + '\'' +
+               ", value='" + value + '\'' +
+               '}';
     }
 }

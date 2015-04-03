@@ -5,11 +5,11 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 /**
- * A response to a {@link uk.co.thefishlive.http.HttpRequest} sent by the
- * {@link uk.co.thefishlive.http.HttpClient}.
+ * A response to a {@link uk.co.thefishlive.http.HttpRequest} sent by the {@link
+ * uk.co.thefishlive.http.HttpClient}.
  *
- * @see uk.co.thefishlive.http.HttpClient
  * @author James
+ * @see uk.co.thefishlive.http.HttpClient
  */
 public interface HttpResponse {
 

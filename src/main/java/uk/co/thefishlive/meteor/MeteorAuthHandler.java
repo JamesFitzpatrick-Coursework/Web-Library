@@ -1,11 +1,9 @@
 package uk.co.thefishlive.meteor;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.net.HttpHeaders;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+
 import uk.co.thefishlive.auth.AuthHandler;
-import uk.co.thefishlive.auth.assessments.AssessmentFactory;
 import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.group.GroupManager;
@@ -16,21 +14,18 @@ import uk.co.thefishlive.auth.session.SessionListener;
 import uk.co.thefishlive.auth.user.UserManager;
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.meteor.BasicHttpHeader;
-import uk.co.thefishlive.meteor.assessments.MeteorAssessmentFactory;
 import uk.co.thefishlive.meteor.assessments.MeteorAssessmentManager;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.data.AuthToken.AuthTokenHandler;
 import uk.co.thefishlive.meteor.group.MeteorGroupManager;
 import uk.co.thefishlive.meteor.login.MeteorLoginHandler;
 import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.session.MeteorSessionHandler;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.net.Proxy;
 import uk.co.thefishlive.meteor.user.MeteorUserManager;
 import uk.co.thefishlive.meteor.utils.SerialisationUtils;
+
+import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeteorAuthHandler implements AuthHandler {
 
@@ -98,7 +93,9 @@ public class MeteorAuthHandler implements AuthHandler {
 
     @Override
     public void setActiveSession(Session session) {
-        if (!(session instanceof MeteorSession)) throw new IllegalArgumentException("Session is not a valid Meteor session");
+        if (!(session instanceof MeteorSession)) {
+            throw new IllegalArgumentException("Session is not a valid Meteor session");
+        }
 
         for (SessionListener listener : ImmutableList.copyOf(this.listeners)) {
             listener.onActiveSessionChanged(session);

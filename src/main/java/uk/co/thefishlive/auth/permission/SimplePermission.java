@@ -4,6 +4,7 @@ package uk.co.thefishlive.auth.permission;
  * Created by James on 13/01/2015.
  */
 public class SimplePermission implements Permission {
+
     private final String key;
     private final String description;
 
@@ -24,13 +25,21 @@ public class SimplePermission implements Permission {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         SimplePermission that = (SimplePermission) o;
 
-        if (!description.equals(that.description)) return false;
-        if (!key.equals(that.key)) return false;
+        if (!description.equals(that.description)) {
+            return false;
+        }
+        if (!key.equals(that.key)) {
+            return false;
+        }
 
         return true;
     }
@@ -45,8 +54,8 @@ public class SimplePermission implements Permission {
     @Override
     public String toString() {
         return "SimplePermission{" +
-                "key='" + key + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+               "key='" + key + '\'' +
+               ", description='" + description + '\'' +
+               '}';
     }
 }

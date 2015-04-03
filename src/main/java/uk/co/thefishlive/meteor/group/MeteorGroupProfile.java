@@ -2,6 +2,7 @@ package uk.co.thefishlive.meteor.group;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
+
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.group.GroupProfile;
 
@@ -14,7 +15,8 @@ public class MeteorGroupProfile implements GroupProfile {
     @SerializedName("display-name")
     private String displayName;
 
-    protected MeteorGroupProfile() {}
+    protected MeteorGroupProfile() {
+    }
 
     public MeteorGroupProfile(String groupname) {
         this(null, groupname, null);
@@ -82,13 +84,21 @@ public class MeteorGroupProfile implements GroupProfile {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         MeteorGroupProfile that = (MeteorGroupProfile) o;
 
-        if (groupid != null ? !groupid.equals(that.groupid) : that.groupid != null) return false;
-        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
+        if (groupid != null ? !groupid.equals(that.groupid) : that.groupid != null) {
+            return false;
+        }
+        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) {
+            return false;
+        }
         return !(groupname != null ? !groupname.equals(that.groupname) : that.groupname != null);
     }
 
@@ -103,9 +113,9 @@ public class MeteorGroupProfile implements GroupProfile {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-                "groupid=" + groupid +
-                ", groupname='" + groupname + '\'' +
-                ", display-name='" + displayName + '\'' +
-                '}';
+               "groupid=" + groupid +
+               ", groupname='" + groupname + '\'' +
+               ", display-name='" + displayName + '\'' +
+               '}';
     }
 }

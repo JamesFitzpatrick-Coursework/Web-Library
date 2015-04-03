@@ -12,8 +12,11 @@ public interface AssignmentFactory {
     /**
      * Create a new assignment to issue to users.
      *
-     * @param profile the assessment to use for this assignment
-     * @param deadline the deadline for this assignment
+     * @param profile
+     *     the assessment to use for this assignment
+     * @param deadline
+     *     the deadline for this assignment
+     *
      * @return the new assignment
      */
     public Assignment createAssignment(AssessmentProfile profile, Date deadline);

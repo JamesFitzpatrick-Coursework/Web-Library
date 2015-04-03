@@ -1,21 +1,13 @@
 package uk.co.thefishlive.meteor.user;
 
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Random;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import uk.co.thefishlive.auth.data.Token;
-import uk.co.thefishlive.auth.session.Session;
+
 import uk.co.thefishlive.auth.user.User;
 import uk.co.thefishlive.auth.user.UserProfile;
-import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.session.MeteorSession;
-import uk.co.thefishlive.meteor.utils.ProxyUtils;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

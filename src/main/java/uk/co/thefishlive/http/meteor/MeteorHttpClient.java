@@ -1,23 +1,32 @@
 package uk.co.thefishlive.http.meteor;
 
-import com.google.common.base.Throwables;
-import com.google.gson.*;
-import uk.co.thefishlive.http.*;
-
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+import uk.co.thefishlive.http.HttpClient;
+import uk.co.thefishlive.http.HttpHeader;
+import uk.co.thefishlive.http.HttpRequest;
+import uk.co.thefishlive.http.HttpResponse;
 import uk.co.thefishlive.http.exception.HttpException;
+import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
-import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
 public class MeteorHttpClient implements HttpClient {
 
@@ -80,14 +89,15 @@ public class MeteorHttpClient implements HttpClient {
                 boolean success = payload.get("success").getAsBoolean();
 
                 // If the call is not successful and not picked up yet, throw an exception
+                /* This doesn't work, need a better way to do this
                 if (!success) {
                     throw new HttpException(payload.getAsJsonObject("payload").get("error").getAsString());
-                }
+                }*/
 
                 // Collect the headers from this request
                 List<HttpHeader> headers = new ArrayList<>();
 
-                for (Map.Entry<String,List<String>> entry : connection.getHeaderFields().entrySet()) {
+                for (Map.Entry<String, List<String>> entry : connection.getHeaderFields().entrySet()) {
                     headers.addAll(entry.getValue().stream()
                                        .map(value -> new BasicHttpHeader(entry.getKey(), value))
                                        .collect(Collectors.toList()));

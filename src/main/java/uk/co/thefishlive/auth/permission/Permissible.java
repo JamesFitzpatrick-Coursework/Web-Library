@@ -18,14 +18,16 @@ public interface Permissible {
     /**
      * Add a specified permission to this permissible object.
      *
-     * @param permission the permission to add
+     * @param permission
+     *     the permission to add
      */
     public void addPermission(Permission permission) throws IOException;
 
     /**
      * Remove a specified permission from this permissible object.
      *
-     * @param permission the permission to remove
+     * @param permission
+     *     the permission to remove
      */
     public void removePermission(Permission permission) throws IOException;
 

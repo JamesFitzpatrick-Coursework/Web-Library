@@ -1,8 +1,8 @@
 package uk.co.thefishlive.meteor.assessments;
 
 import com.google.common.collect.ImmutableList;
+
 import uk.co.thefishlive.auth.assessments.Assessment;
-import uk.co.thefishlive.auth.assessments.AssessmentFactory;
 import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
 import uk.co.thefishlive.auth.assessments.questions.Question;

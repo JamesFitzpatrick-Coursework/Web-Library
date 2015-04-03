@@ -4,22 +4,24 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.group.Group;
 import uk.co.thefishlive.auth.group.GroupManager;
 import uk.co.thefishlive.auth.group.GroupProfile;
-import uk.co.thefishlive.http.*;
-import uk.co.thefishlive.http.meteor.BasicHttpHeader;
+import uk.co.thefishlive.http.HttpClient;
+import uk.co.thefishlive.http.HttpHeader;
+import uk.co.thefishlive.http.HttpRequest;
+import uk.co.thefishlive.http.HttpResponse;
+import uk.co.thefishlive.http.RequestType;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.utils.SerialisationUtils;
 import uk.co.thefishlive.meteor.utils.WebUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeteorGroupManager implements GroupManager {
 

@@ -1,7 +1,6 @@
 package uk.co.thefishlive.auth.assessments.assignments;
 
 import uk.co.thefishlive.auth.assessments.Assessment;
-import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
 import uk.co.thefishlive.auth.assessments.exception.AssessmentException;
 import uk.co.thefishlive.auth.data.Token;

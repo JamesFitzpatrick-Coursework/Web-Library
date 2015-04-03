@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
+
 import uk.co.thefishlive.auth.assessments.questions.Question;
 import uk.co.thefishlive.auth.assessments.questions.QuestionType;
 import uk.co.thefishlive.meteor.assessments.questions.multichoice.MeteorMultichoiceQuestion;
@@ -16,6 +17,7 @@ import java.lang.reflect.Type;
  *
  */
 public class MeteorQuestionAdapter implements JsonAdapter<Question> {
+
     @Override
     public Question deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject json = jsonElement.getAsJsonObject();

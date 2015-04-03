@@ -1,10 +1,10 @@
 package uk.co.thefishlive.http.meteor;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
+
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpResponse;
-
-import com.google.gson.JsonObject;
 
 import java.util.List;
 

@@ -39,7 +39,8 @@ public interface Question<A> extends Typed<QuestionType> {
     /**
      * Set the current given answer for this question.
      *
-     * @param a the new given answer for the question
+     * @param a
+     *     the new given answer for the question
      */
     public void setCurrentAnswer(A a);
 

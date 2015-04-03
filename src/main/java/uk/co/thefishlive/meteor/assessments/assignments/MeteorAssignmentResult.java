@@ -14,9 +14,9 @@ import java.util.Map;
 public class MeteorAssignmentResult implements AssignmentResult {
 
     private Assignment assignment;
-    private Map<Integer,QuestionScore> scores;
+    private Map<Integer, QuestionScore> scores;
 
-    public MeteorAssignmentResult(Assignment assignment, Map<Integer,QuestionScore> scores) {
+    public MeteorAssignmentResult(Assignment assignment, Map<Integer, QuestionScore> scores) {
         this.assignment = assignment;
         this.scores = scores;
     }

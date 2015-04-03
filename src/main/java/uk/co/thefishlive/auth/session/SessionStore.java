@@ -1,8 +1,8 @@
 package uk.co.thefishlive.auth.session;
 
-import java.util.List;
-import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.http.HttpHeader;
+
+import java.util.List;
 
 /**
  * Represents an object that stores an active session
@@ -12,7 +12,8 @@ public interface SessionStore {
     /**
      * Sets the currently active auth session.
      *
-     * @param session the currently logged in session
+     * @param session
+     *     the currently logged in session
      */
     public void setActiveSession(Session session);
 
@@ -33,7 +34,8 @@ public interface SessionStore {
     /**
      * Add a listener to listen for active session updates.
      *
-     * @param listener the listener to register
+     * @param listener
+     *     the listener to register
      */
     public void addSessionListener(SessionListener listener);
 

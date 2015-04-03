@@ -4,10 +4,9 @@ public interface Profile {
 
     /**
      * Get a unique string to represent this profile.
-     * <p />
-     * If {@link #hasId} is true
-     * then this will return the profile's id (from {@link #getId}) if not it
-     * will return this profile's name (from {@link #getName}).
+     * <p>
+     * If {@link #hasId} is true then this will return the profile's id (from {@link #getId}) if not
+     * it will return this profile's name (from {@link #getName}).
      *
      * @return a unique string to represent this profile
      */
@@ -15,9 +14,9 @@ public interface Profile {
 
     /**
      * Get this profile's unique identifying id.
-     * <p />
-     * This should be used to compare profile's against each other or store
-     * user information as this id is static for the life of the user.
+     * <p>
+     * This should be used to compare profile's against each other or store user information as this
+     * id is static for the life of the user.
      *
      * @return this profiles id
      */
@@ -32,9 +31,9 @@ public interface Profile {
 
     /**
      * Get this profile's display name.
-     * <p />
-     * This should not be used to compare profiles as it is not necessarily
-     * unique. This should only be used to display to the client.
+     * <p>
+     * This should not be used to compare profiles as it is not necessarily unique. This should only
+     * be used to display to the client.
      *
      * @return this profile's display name
      */

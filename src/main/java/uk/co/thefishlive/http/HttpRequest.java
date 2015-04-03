@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Represents a HTTP request sent by a {@link uk.co.thefishlive.http.HttpClient}.
  *
- * @see uk.co.thefishlive.http.HttpClient
  * @author James
+ * @see uk.co.thefishlive.http.HttpClient
  */
 public interface HttpRequest {
 

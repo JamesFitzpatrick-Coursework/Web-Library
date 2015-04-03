@@ -9,7 +9,8 @@ public class PermissionRegistry {
 
     private static final Map<String, Permission> permissions = new HashMap<>();
 
-    protected PermissionRegistry() {} // Static class
+    protected PermissionRegistry() {
+    } // Static class
 
     public static void registerPermission(Permission permission) {
         Preconditions.checkNotNull(permission);

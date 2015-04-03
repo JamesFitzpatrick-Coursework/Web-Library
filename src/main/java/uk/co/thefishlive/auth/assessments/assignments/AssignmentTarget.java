@@ -33,15 +33,19 @@ public interface AssignmentTarget {
     /**
      * Assign an assignment to this object.
      *
-     * @param assignment the new assignment to assign to this object
+     * @param assignment
+     *     the new assignment to assign to this object
      */
     public void assignAssessment(Assignment assignment);
 
     /**
      * Submit assessment to the server to be marked.
      *
-     * @param assignment the assignment that has been completed
-     * @param assessment the completed assessment object
+     * @param assignment
+     *     the assignment that has been completed
+     * @param assessment
+     *     the completed assessment object
+     *
      * @return the marked assessment
      */
     public AssignmentResult submitAssessment(Assignment assignment, Assessment assessment);

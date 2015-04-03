@@ -1,6 +1,5 @@
 package uk.co.thefishlive.auth;
 
-import uk.co.thefishlive.auth.assessments.AssessmentFactory;
 import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.group.GroupManager;
 import uk.co.thefishlive.auth.login.LoginHandler;
@@ -9,8 +8,7 @@ import uk.co.thefishlive.auth.session.SessionStore;
 import uk.co.thefishlive.auth.user.UserManager;
 
 /**
- * Represents the handler controlling all authentication, contains methods to
- * authenticate users.
+ * Represents the handler controlling all authentication, contains methods to authenticate users.
  */
 public interface AuthHandler extends SessionStore, Client {
 

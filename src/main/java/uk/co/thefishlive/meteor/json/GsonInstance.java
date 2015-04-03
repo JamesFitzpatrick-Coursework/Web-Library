@@ -6,6 +6,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
+
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.meteor.assessments.questions.MeteorQuestion;
 import uk.co.thefishlive.meteor.data.AuthToken;
@@ -45,10 +46,10 @@ public class GsonInstance {
 
     public static void buildInstance() {
         instance = builder
-                .setPrettyPrinting()
-                .setDateFormat("yyyy-MM-dd HH:mm:ss")
-                .setExclusionStrategies(buildExclusionStrategy())
-                .create();
+            .setPrettyPrinting()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .setExclusionStrategies(buildExclusionStrategy())
+            .create();
 
         builder = null;
     }

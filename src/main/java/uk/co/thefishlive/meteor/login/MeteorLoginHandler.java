@@ -1,9 +1,12 @@
 package uk.co.thefishlive.meteor.login;
 
-import uk.co.thefishlive.auth.user.UserProfile;
+import com.google.gson.JsonObject;
+
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.login.LoginHandler;
+import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.auth.session.Session;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.http.HttpClient;
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpRequest;
@@ -14,17 +17,15 @@ import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
-import uk.co.thefishlive.meteor.user.MeteorUserProfile;
-import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.meteor.session.MeteorSession;
-
-import static uk.co.thefishlive.meteor.utils.WebUtils.*;
-
-import com.google.gson.JsonObject;
+import uk.co.thefishlive.meteor.user.MeteorUserProfile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static uk.co.thefishlive.meteor.utils.WebUtils.HANDSHAKE_ENDPOINT;
+import static uk.co.thefishlive.meteor.utils.WebUtils.LOGIN_ENDPOINT;
 
 public class MeteorLoginHandler implements LoginHandler {
 
@@ -95,9 +96,9 @@ public class MeteorLoginHandler implements LoginHandler {
 
         // Create the session object
         return new MeteorSession(this.authHandler.getSessionHandler(),
-                                            profile,
-                                            accessToken,
-                                            refreshToken);
+                                 profile,
+                                 accessToken,
+                                 refreshToken);
     }
 
 }

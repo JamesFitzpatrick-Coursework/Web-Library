@@ -1,6 +1,7 @@
 package uk.co.thefishlive.meteor.assessments.questions;
 
 import com.google.gson.annotations.SerializedName;
+
 import uk.co.thefishlive.auth.assessments.questions.Question;
 import uk.co.thefishlive.auth.data.Token;
 

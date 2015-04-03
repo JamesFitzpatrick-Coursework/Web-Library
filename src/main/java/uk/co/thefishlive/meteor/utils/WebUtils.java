@@ -1,15 +1,13 @@
 package uk.co.thefishlive.meteor.utils;
 
+import uk.co.thefishlive.auth.assessments.AssessmentProfile;
+import uk.co.thefishlive.auth.group.GroupProfile;
+import uk.co.thefishlive.auth.permission.Permission;
+import uk.co.thefishlive.auth.user.UserProfile;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-
-import uk.co.thefishlive.auth.assessments.AssessmentProfile;
-import uk.co.thefishlive.auth.assessments.assignments.Assignment;
-import uk.co.thefishlive.auth.group.GroupProfile;
-import uk.co.thefishlive.auth.permission.Permission;
-import uk.co.thefishlive.auth.settings.Setting;
-import uk.co.thefishlive.auth.user.UserProfile;
 
 public class WebUtils {
 

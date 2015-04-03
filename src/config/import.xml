@@ -22,7 +22,7 @@
     </subpackage>
 
     <subpackage name="meteor">
-        <allow pkg="uk.co.thefishlive.http" />
-        <allow pkg="uk.co.thefishlive.auth" />
+        <allow pkg="uk.co.thefishlive.http"/>
+        <allow pkg="uk.co.thefishlive.auth"/>
     </subpackage>
 </import-control>

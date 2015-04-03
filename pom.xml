@@ -16,7 +16,8 @@
 
     <scm>
         <url>https://github.com/thefishlive/authlib</url>
-        <developerConnection>scm:git:https://github.com/thefishlive/authlib.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/thefishlive/authlib.git
+        </developerConnection>
     </scm>
 
     <developers>

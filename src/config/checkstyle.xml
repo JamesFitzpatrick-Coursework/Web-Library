@@ -29,8 +29,8 @@
 
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
-        <module name="ImportControl" >
-            <property name="file" value="${configDir}/import.xml" />
+        <module name="ImportControl">
+            <property name="file" value="${configDir}/import.xml"/>
         </module>
         <module name="IllegalTokenText">
             <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
@@ -53,7 +53,8 @@
         <module name="NoLineWrap"/>
         <module name="EmptyBlock">
             <property name="option" value="TEXT"/>
-            <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
+            <property name="tokens"
+                      value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
         </module>
         <module name="NeedBraces"/>
         <module name="LeftCurly">
@@ -167,7 +168,8 @@
                       value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
         </module>
         <module name="AnnotationLocation">
-            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
+            <property name="tokens"
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
         </module>
         <module name="AnnotationLocation">
             <property name="tokens" value="VARIABLE_DEF"/>
@@ -182,7 +184,8 @@
         <module name="JavadocParagraph"/>
         <module name="AtclauseOrder">
             <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
-            <property name="target" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
+            <property name="target"
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module>
         <module name="JavadocMethod">
             <property name="scope" value="public"/>

@@ -13,7 +13,7 @@ public class ProxyUtils {
 
     public static Proxy getSystemProxy() throws URISyntaxException {
         System.setProperty("java.net.useSystemProxies", "true");
-        List<Proxy> l =  ProxySelector.getDefault().select(new URI(WebUtils.BASE_URL));
+        List<Proxy> l = ProxySelector.getDefault().select(new URI(WebUtils.BASE_URL));
         return l.get(0);
     }
 }

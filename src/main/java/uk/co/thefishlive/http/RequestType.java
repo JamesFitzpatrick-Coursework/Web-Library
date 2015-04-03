@@ -6,14 +6,12 @@ package uk.co.thefishlive.http;
 public enum RequestType {
 
     /**
-     * Sends a POST HTTP request to send specified information to the specified
-     * URI.
+     * Sends a POST HTTP request to send specified information to the specified URI.
      */
     POST,
 
     /**
-     * Sends a GET HTTP request to retrieve the information from the specified
-     * URI.
+     * Sends a GET HTTP request to retrieve the information from the specified URI.
      */
     GET,
 

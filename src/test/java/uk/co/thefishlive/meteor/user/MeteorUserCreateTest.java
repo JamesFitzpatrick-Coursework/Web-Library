@@ -1,13 +1,12 @@
 package uk.co.thefishlive.meteor.user;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Random;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
 import uk.co.thefishlive.auth.data.Token;
+import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.permission.PermissionRegistry;
 import uk.co.thefishlive.auth.permission.SimplePermission;
@@ -17,10 +16,16 @@ import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.http.exception.HttpException;
 import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.auth.login.exception.LoginException;
 import uk.co.thefishlive.meteor.settings.StringSetting;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 // We have to run these tests in this exact order or they will fail
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -113,7 +118,7 @@ public class MeteorUserCreateTest extends TestBase {
     }
 
     @Test(expected = HttpException.class) // User shouldn't exist any more
-    public void test12_LookupUser()  throws Exception {
+    public void test12_LookupUser() throws Exception {
         authHandler.getUserManager().getUserProfile(testProfile);
     }
 

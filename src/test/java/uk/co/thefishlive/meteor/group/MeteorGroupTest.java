@@ -1,12 +1,13 @@
 package uk.co.thefishlive.meteor.group;
 
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+
 import uk.co.thefishlive.auth.group.Group;
 import uk.co.thefishlive.auth.group.member.GroupMemberProfile;
-import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.meteor.TestBase;
+
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 

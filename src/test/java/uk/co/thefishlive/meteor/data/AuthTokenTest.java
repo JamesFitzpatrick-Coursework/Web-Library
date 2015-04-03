@@ -1,12 +1,10 @@
 package uk.co.thefishlive.meteor.data;
 
-import uk.co.thefishlive.auth.data.Token;
-
 import org.junit.Test;
 
-import java.util.Arrays;
+import uk.co.thefishlive.auth.data.Token;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class AuthTokenTest {
 

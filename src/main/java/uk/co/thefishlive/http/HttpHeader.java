@@ -1,8 +1,7 @@
 package uk.co.thefishlive.http;
 
 /**
- * Represents a header to be sent with a
- * {@link uk.co.thefishlive.http.HttpRequest}.
+ * Represents a header to be sent with a {@link uk.co.thefishlive.http.HttpRequest}.
  */
 public interface HttpHeader {
 

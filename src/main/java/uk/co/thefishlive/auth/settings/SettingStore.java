@@ -10,7 +10,9 @@ public interface SettingStore {
     /**
      * Retrieve a the value of a specific setting held by this object.
      *
-     * @param key the key of the setting to lookup
+     * @param key
+     *     the key of the setting to lookup
+     *
      * @return the setting requested
      */
     public Setting<String, ?> getSetting(String key) throws IOException;
@@ -18,14 +20,16 @@ public interface SettingStore {
     /**
      * Set a specific setting for this object.
      *
-     * @param setting the wrapper for the setting to set
+     * @param setting
+     *     the wrapper for the setting to set
      */
     public void setSetting(Setting<String, ?> setting) throws IOException;
 
     /**
      * Delete a specific setting from this object
      *
-     * @param key the setting key to delete
+     * @param key
+     *     the setting key to delete
      */
     public void deleteSetting(String key) throws IOException;
 

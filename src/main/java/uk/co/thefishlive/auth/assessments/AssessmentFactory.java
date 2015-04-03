@@ -18,7 +18,9 @@ public interface AssessmentFactory {
     /**
      * Create a new builder for building questions of a given type.
      *
-     * @param type the type of question to build
+     * @param type
+     *     the type of question to build
+     *
      * @return a new builder to build questions of the given type
      */
     public QuestionBuilder createQuestionBuilder(QuestionType type);

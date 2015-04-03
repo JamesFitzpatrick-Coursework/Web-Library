@@ -6,17 +6,18 @@ import org.junit.runners.MethodSorters;
 
 import uk.co.thefishlive.auth.assessments.Assessment;
 import uk.co.thefishlive.auth.assessments.AssessmentBuilder;
+import uk.co.thefishlive.auth.assessments.exception.AssessmentCreateException;
+import uk.co.thefishlive.auth.assessments.exception.AssessmentException;
 import uk.co.thefishlive.auth.assessments.questions.QuestionType;
 import uk.co.thefishlive.auth.assessments.questions.multichoice.MultichoiceQuestion;
 import uk.co.thefishlive.auth.assessments.questions.multichoice.MultichoiceQuestionBuilder;
 import uk.co.thefishlive.http.exception.HttpException;
 import uk.co.thefishlive.meteor.TestBase;
-import uk.co.thefishlive.auth.assessments.exception.AssessmentCreateException;
-import uk.co.thefishlive.auth.assessments.exception.AssessmentException;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 // We have to run these tests in this exact order or they will fail
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

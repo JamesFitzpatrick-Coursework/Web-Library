@@ -1,12 +1,12 @@
 package uk.co.thefishlive.meteor.session;
 
-import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.session.SessionHandler;
+import uk.co.thefishlive.auth.session.exception.SessionException;
+import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.auth.session.exception.SessionException;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
 
 import java.io.IOException;
@@ -61,13 +61,21 @@ public class MeteorSession implements Session {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         MeteorSession that = (MeteorSession) o;
 
-        if (access != null ? !access.equals(that.access) : that.access != null) return false;
-        if (profile != null ? !profile.equals(that.profile) : that.profile != null) return false;
+        if (access != null ? !access.equals(that.access) : that.access != null) {
+            return false;
+        }
+        if (profile != null ? !profile.equals(that.profile) : that.profile != null) {
+            return false;
+        }
         return !(refresh != null ? !refresh.equals(that.refresh) : that.refresh != null);
     }
 
@@ -82,10 +90,10 @@ public class MeteorSession implements Session {
     @Override
     public String toString() {
         return "MeteorSession{" +
-                "profile=" + profile +
-                ", access=" + access +
-                ", refresh=" + refresh +
-                '}';
+               "profile=" + profile +
+               ", access=" + access +
+               ", refresh=" + refresh +
+               '}';
     }
 
     public Token getRefreshToken() {
@@ -97,6 +105,6 @@ public class MeteorSession implements Session {
     }
 
     public static MeteorSession generateRandomSession(MeteorAuthHandler authHandler, UserProfile user) {
-        return new MeteorSession(authHandler.getSessionHandler(), user,  AuthToken.generateRandom("access-token"), AuthToken.generateRandom("refresh-token"));
+        return new MeteorSession(authHandler.getSessionHandler(), user, AuthToken.generateRandom("access-token"), AuthToken.generateRandom("refresh-token"));
     }
 }

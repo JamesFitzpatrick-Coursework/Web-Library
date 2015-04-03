@@ -20,11 +20,13 @@ public interface AssessmentManager {
 
     /**
      * Get a assessment from the profile provided.
-     * <p />
-     * <bold>Note - </bold>Only the assessment id from the profile is used for
-     * lookup so the other values are not needed to be provided.
+     * <p>
+     * <bold>Note - </bold>Only the assessment id from the profile is used for lookup so the other
+     * values are not needed to be provided.
      *
-     * @param profile the profile to use to lookup the assessment
+     * @param profile
+     *     the profile to use to lookup the assessment
+     *
      * @return the specified assessment
      */
     public Assessment getAssessment(AssessmentProfile profile) throws IOException, AssessmentException;
@@ -32,7 +34,9 @@ public interface AssessmentManager {
     /**
      * Delete a given assessment from the remote server.
      *
-     * @param assessment the assessment to delete
+     * @param assessment
+     *     the assessment to delete
+     *
      * @return true if the assessment was deleted successfully, false otherwise
      */
     public boolean deleteAssessment(Assessment assessment) throws IOException, AssessmentException;
@@ -40,22 +44,22 @@ public interface AssessmentManager {
     /**
      * Update a given assessment on the remote server.
      *
-     * @param assessment the assessment to update
+     * @param assessment
+     *     the assessment to update
+     *
      * @return true if the assessment was updated successfully, false otherwise
      */
     public boolean updateAssessment(Assessment assessment) throws IOException, AssessmentException;
 
     /**
-     * Get the assessment factory associated with this manager, used to create
-     * new assessments.
+     * Get the assessment factory associated with this manager, used to create new assessments.
      *
      * @return the assessment factory associated with this manager
      */
     public AssessmentFactory getAssessmentFactory();
 
     /**
-     * Get the assignment factory associated with this manager, used to create
-     * new assignment.
+     * Get the assignment factory associated with this manager, used to create new assignment.
      *
      * @return the assignment factory associated with this manager
      */

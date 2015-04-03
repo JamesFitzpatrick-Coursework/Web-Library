@@ -2,10 +2,12 @@ package uk.co.thefishlive.meteor.assessments;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
+
 import uk.co.thefishlive.auth.assessments.Assessment;
 import uk.co.thefishlive.auth.assessments.AssessmentBuilder;
-import uk.co.thefishlive.auth.assessments.questions.QuestionBuilder;
+import uk.co.thefishlive.auth.assessments.exception.AssessmentCreateException;
 import uk.co.thefishlive.auth.assessments.questions.Question;
+import uk.co.thefishlive.auth.assessments.questions.QuestionBuilder;
 import uk.co.thefishlive.auth.assessments.questions.QuestionType;
 import uk.co.thefishlive.http.HttpClient;
 import uk.co.thefishlive.http.HttpHeader;
@@ -14,7 +16,6 @@ import uk.co.thefishlive.http.HttpResponse;
 import uk.co.thefishlive.http.RequestType;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
-import uk.co.thefishlive.auth.assessments.exception.AssessmentCreateException;
 import uk.co.thefishlive.meteor.json.GsonInstance;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.utils.WebUtils;
@@ -53,9 +54,9 @@ public class MeteorAssessmentBuilder implements AssessmentBuilder {
     @Override
     public Assessment build() throws IOException, AssessmentCreateException {
         Assessment assessment = new MeteorAssessment(
-                factory.getAssessmentManager(),
-                new MeteorAssessmentProfile(null, this.name, this.name),
-                questions
+            factory.getAssessmentManager(),
+            new MeteorAssessmentProfile(null, this.name, this.name),
+            questions
         );
 
         HttpClient client = MeteorHttpClient.getInstance();

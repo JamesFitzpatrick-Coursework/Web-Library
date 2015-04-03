@@ -26,8 +26,8 @@ public class TokenTypeRegistry {
 
     public static void registerType(int code, String name) {
         Preconditions.checkArgument(
-                !typesById.containsKey(code),
-                String.format("Cannot redeclare token type code (attempted to register %d (%s), but its already registered as %s)", code, name, typesById.get(code))
+            !typesById.containsKey(code),
+            String.format("Cannot redeclare token type code (attempted to register %d (%s), but its already registered as %s)", code, name, typesById.get(code))
         );
 
         typesById.put(code, name);

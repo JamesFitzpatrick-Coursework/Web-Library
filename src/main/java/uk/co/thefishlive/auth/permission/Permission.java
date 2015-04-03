@@ -13,8 +13,7 @@ public interface Permission {
     public String getKey();
 
     /**
-     * Get this permissions description as defined in the
-     * {@link PermissionRegistry}.
+     * Get this permissions description as defined in the {@link PermissionRegistry}.
      *
      * @return a description of what this permission allows a object to do
      * @see PermissionRegistry

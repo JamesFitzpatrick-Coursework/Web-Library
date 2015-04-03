@@ -17,4 +17,14 @@ public abstract class MeteorQuestionBuilder implements QuestionBuilder {
         this.question = question;
     }
 
+    @Override
+    public int getQuestionNumber() {
+        return this.questionNumber;
+    }
+
+    @Override
+    public String getQuestion() {
+        return this.question;
+    }
+
 }

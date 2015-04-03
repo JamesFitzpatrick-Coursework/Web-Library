@@ -15,7 +15,9 @@ public interface HttpClient {
     /**
      * Send a http request to a web site.
      *
-     * @param request the request to send
+     * @param request
+     *     the request to send
+     *
      * @return the http response from the web server
      */
     public HttpResponse sendRequest(URL url, HttpRequest request) throws IOException, HttpException;

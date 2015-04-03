@@ -1,29 +1,27 @@
 package uk.co.thefishlive.meteor.group;
 
-import java.net.URISyntaxException;
-import java.util.Random;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import uk.co.thefishlive.auth.data.Token;
+
 import uk.co.thefishlive.auth.group.Group;
 import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.permission.PermissionRegistry;
 import uk.co.thefishlive.auth.permission.SimplePermission;
 import uk.co.thefishlive.auth.settings.Setting;
-import uk.co.thefishlive.auth.user.UserProfile;
 import uk.co.thefishlive.http.exception.HttpException;
-import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.TestBase;
-import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.settings.StringSetting;
-import uk.co.thefishlive.meteor.user.MeteorUserProfile;
-import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
-import static org.junit.Assert.*;
+import java.net.URISyntaxException;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 // We have to run these tests in this exact order or they will fail
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -112,7 +110,7 @@ public class MeteorGroupCreateTest extends TestBase {
     }
 
     @Test(expected = HttpException.class) // User shouldn't exist any more
-    public void test12_LookupGroup()  throws Exception {
+    public void test12_LookupGroup() throws Exception {
         authHandler.getGroupManager().getGroupProfile(testProfile);
     }
 

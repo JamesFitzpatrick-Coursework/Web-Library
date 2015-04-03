@@ -1,7 +1,7 @@
 package uk.co.thefishlive.meteor.assessments;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
+
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
 import uk.co.thefishlive.auth.data.Token;
 
@@ -14,7 +14,8 @@ public class MeteorAssessmentProfile implements AssessmentProfile {
     @SerializedName("display-name")
     private String displayName;
 
-    protected MeteorAssessmentProfile() {}
+    protected MeteorAssessmentProfile() {
+    }
 
     public MeteorAssessmentProfile(String assessmentName) {
         this(null, assessmentName, null);
@@ -80,13 +81,21 @@ public class MeteorAssessmentProfile implements AssessmentProfile {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         MeteorAssessmentProfile that = (MeteorAssessmentProfile) o;
 
-        if (assessmentId != null ? !assessmentId.equals(that.assessmentId) : that.assessmentId != null) return false;
-        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
+        if (assessmentId != null ? !assessmentId.equals(that.assessmentId) : that.assessmentId != null) {
+            return false;
+        }
+        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) {
+            return false;
+        }
         return !(assessmentName != null ? !assessmentName.equals(that.assessmentName) : that.assessmentName != null);
     }
 
@@ -101,9 +110,9 @@ public class MeteorAssessmentProfile implements AssessmentProfile {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-                "assessmentId=" + assessmentId +
-                ", assessmentName='" + assessmentName + '\'' +
-                ", display-name='" + displayName + '\'' +
-                '}';
+               "assessmentId=" + assessmentId +
+               ", assessmentName='" + assessmentName + '\'' +
+               ", display-name='" + displayName + '\'' +
+               '}';
     }
 }

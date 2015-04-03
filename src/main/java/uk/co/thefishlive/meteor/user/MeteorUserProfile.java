@@ -1,10 +1,10 @@
 package uk.co.thefishlive.meteor.user;
 
 import com.google.common.base.Preconditions;
-import uk.co.thefishlive.auth.user.UserProfile;
-import uk.co.thefishlive.auth.data.Token;
-
 import com.google.gson.annotations.SerializedName;
+
+import uk.co.thefishlive.auth.data.Token;
+import uk.co.thefishlive.auth.user.UserProfile;
 
 public class MeteorUserProfile implements UserProfile {
 
@@ -15,7 +15,8 @@ public class MeteorUserProfile implements UserProfile {
     @SerializedName("display-name")
     private String displayName;
 
-    protected MeteorUserProfile() {}
+    protected MeteorUserProfile() {
+    }
 
     public MeteorUserProfile(String username) {
         this(null, username, null);
@@ -83,13 +84,21 @@ public class MeteorUserProfile implements UserProfile {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         MeteorUserProfile that = (MeteorUserProfile) o;
 
-        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
-        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
+        if (userid != null ? !userid.equals(that.userid) : that.userid != null) {
+            return false;
+        }
+        if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) {
+            return false;
+        }
         return !(username != null ? !username.equals(that.username) : that.username != null);
     }
 
@@ -104,10 +113,10 @@ public class MeteorUserProfile implements UserProfile {
     @Override
     public String toString() {
         return "LoginProfile{" +
-                "userid=" + userid +
-                ", username='" + username + '\'' +
-                ", display-name='" + displayName + '\'' +
-                '}';
+               "userid=" + userid +
+               ", username='" + username + '\'' +
+               ", display-name='" + displayName + '\'' +
+               '}';
     }
 
 }

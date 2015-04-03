@@ -1,21 +1,19 @@
 package uk.co.thefishlive.meteor.group;
 
-import java.net.URISyntaxException;
-import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
+
 import uk.co.thefishlive.auth.group.Group;
 import uk.co.thefishlive.auth.group.GroupProfile;
-import uk.co.thefishlive.auth.session.Session;
 import uk.co.thefishlive.auth.user.UserProfile;
-import uk.co.thefishlive.meteor.MeteorAuthHandler;
 import uk.co.thefishlive.meteor.TestBase;
 import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.session.MeteorSession;
 import uk.co.thefishlive.meteor.user.MeteorUserProfile;
-import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class MeteorGroupManagerTest extends TestBase {
 

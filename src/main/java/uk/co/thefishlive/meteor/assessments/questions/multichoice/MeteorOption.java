@@ -6,6 +6,7 @@ import uk.co.thefishlive.auth.assessments.questions.multichoice.Option;
  *
  */
 public class MeteorOption implements Option {
+
     private final int id;
     private final String text;
 

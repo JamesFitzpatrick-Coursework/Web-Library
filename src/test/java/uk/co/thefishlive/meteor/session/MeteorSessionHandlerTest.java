@@ -1,19 +1,14 @@
 package uk.co.thefishlive.meteor.session;
 
-import uk.co.thefishlive.auth.user.UserProfile;
-import uk.co.thefishlive.auth.session.Session;
-import uk.co.thefishlive.meteor.MeteorAuthHandler;
-import uk.co.thefishlive.meteor.TestBase;
-import uk.co.thefishlive.meteor.data.AuthToken;
-import uk.co.thefishlive.meteor.user.MeteorUserProfile;
-
-import org.junit.Before;
 import org.junit.Test;
-import uk.co.thefishlive.meteor.utils.ProxyUtils;
 
-import java.net.*;
+import uk.co.thefishlive.auth.session.Session;
+import uk.co.thefishlive.meteor.TestBase;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class MeteorSessionHandlerTest extends TestBase {
 
