@@ -2,6 +2,7 @@ package uk.co.thefishlive.meteor.group;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,6 +25,8 @@ import uk.co.thefishlive.http.meteor.BasicHttpHeader;
 import uk.co.thefishlive.http.meteor.MeteorHttpClient;
 import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
 import uk.co.thefishlive.meteor.MeteorAuthHandler;
+import uk.co.thefishlive.meteor.assessments.MeteorAssessmentManager;
+import uk.co.thefishlive.meteor.assessments.assignments.MeteorAssignment;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
 import uk.co.thefishlive.meteor.settings.StringSetting;
 import uk.co.thefishlive.meteor.utils.SerialisationUtils;
@@ -192,26 +195,61 @@ public class MeteorGroup implements Group {
 
     @Override
     public List<Assignment> getOutstandingAssignments() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Assignment> getAllAssignments() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Assignment> getCompletedAssignments() {
-        return null;
+        List<Assignment> assignments = Lists.newArrayList();
+
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
+
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.GET, headers);
+            HttpResponse response = client.sendRequest(WebUtils.GROUP_ASSIGNMENT_LOOKUP_COMPLETED(getProfile()), request);
+
+            JsonObject payload = response.getResponseBody();
+
+            for (JsonElement element : payload.getAsJsonArray("assignments")) {
+                Assignment assignment = GSON.fromJson(element, Assignment.class);
+                ((MeteorAssignment) assignment).setHandler((MeteorAssessmentManager) authHandler.getAssessmentManager());
+                assignments.add(assignment);
+            }
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
+
+        return assignments;
     }
 
     @Override
     public void assignAssessment(Assignment assignment) {
+        try {
+            HttpClient client = MeteorHttpClient.getInstance();
 
+            List<HttpHeader> headers = new ArrayList<>();
+            headers.addAll(this.authHandler.getAuthHeaders());
+
+            JsonObject payload = new JsonObject();
+            payload.addProperty("assignment", assignment.getAssignmentId().toString());
+
+            HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
+            client.sendRequest(WebUtils.GROUP_ASSIGNMENT_ADD(getProfile()), request);
+        } catch (IOException e) {
+            Throwables.propagate(e);
+        }
     }
 
     @Override
     public AssignmentResult submitAssessment(Assignment assignment, Assessment assessment) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

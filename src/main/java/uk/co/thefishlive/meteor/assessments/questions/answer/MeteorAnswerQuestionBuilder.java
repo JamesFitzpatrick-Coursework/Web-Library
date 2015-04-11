@@ -3,6 +3,7 @@ package uk.co.thefishlive.meteor.assessments.questions.answer;
 import com.google.common.collect.ImmutableSet;
 
 import uk.co.thefishlive.auth.assessments.questions.Question;
+import uk.co.thefishlive.auth.assessments.questions.answer.AnswerQuestion;
 import uk.co.thefishlive.auth.assessments.questions.answer.AnswerQuestionBuilder;
 import uk.co.thefishlive.meteor.assessments.questions.MeteorQuestionBuilder;
 
@@ -14,6 +15,15 @@ import java.util.Set;
 public class MeteorAnswerQuestionBuilder extends MeteorQuestionBuilder implements AnswerQuestionBuilder {
 
     private Set<String> answers;
+
+    public MeteorAnswerQuestionBuilder() {
+        super();
+    }
+
+    public MeteorAnswerQuestionBuilder(AnswerQuestion question) {
+        super(question);
+        this.answers = question.getCurrentAnswer();
+    }
 
     @Override
     public void addAnswer(String answer) {

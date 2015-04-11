@@ -20,7 +20,7 @@ public class MeteorAssignmentFactory implements AssignmentFactory {
 
     @Override
     public Assignment createAssignment(AssessmentProfile profile, Date deadline) {
-        return new MeteorAssignment(manager, profile, deadline);
+        return new MeteorAssignment(manager, profile, deadline); // TODO magic this off to the server
     }
 
 }

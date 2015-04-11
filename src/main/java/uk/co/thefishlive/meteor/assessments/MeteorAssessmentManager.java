@@ -12,6 +12,7 @@ import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
 import uk.co.thefishlive.auth.assessments.assignments.AssignmentFactory;
 import uk.co.thefishlive.auth.assessments.exception.AssessmentException;
+import uk.co.thefishlive.auth.assessments.questions.Question;
 import uk.co.thefishlive.http.HttpClient;
 import uk.co.thefishlive.http.HttpHeader;
 import uk.co.thefishlive.http.HttpRequest;
@@ -85,7 +86,15 @@ public class MeteorAssessmentManager implements AssessmentManager {
             throw new AssessmentException(response.getResponseBody().get("error").getAsString());
         }
 
-        return GsonInstance.get().fromJson(response.getResponseBody().getAsJsonObject("assessment"), MeteorAssessment.class);
+        JsonObject json = response.getResponseBody().getAsJsonObject("assessment");
+        MeteorAssessmentProfile assessmentProfile = GsonInstance.get().fromJson(json.get("profile"), MeteorAssessmentProfile.class);
+
+        List<Question> questions = Lists.newArrayList();
+        for (JsonElement question : json.getAsJsonArray("questions")) {
+            questions.add(GsonInstance.get().fromJson(question, Question.class));
+        }
+
+        return new MeteorAssessment(this, assessmentProfile, questions);
     }
 
     @Override

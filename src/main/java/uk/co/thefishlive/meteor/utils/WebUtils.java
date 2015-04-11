@@ -1,6 +1,7 @@
 package uk.co.thefishlive.meteor.utils;
 
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
+import uk.co.thefishlive.auth.data.Token;
 import uk.co.thefishlive.auth.group.GroupProfile;
 import uk.co.thefishlive.auth.permission.Permission;
 import uk.co.thefishlive.auth.user.UserProfile;
@@ -122,7 +123,23 @@ public class WebUtils {
         return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/settings/" + setting);
     }
 
+    public static URL GROUP_ASSIGNMENT_LOOKUP_COMPLETED(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/completed");
+    }
+
+    public static URL GROUP_ASSIGNMENT_ADD(GroupProfile profile) {
+        return constantUrl(GROUPS_ENDPOINT + "/" + profile.getIdentifier() + "/assignments/add");
+    }
+
     public static URL ASSESSMENT_LOOKUP_ENDPOINT(AssessmentProfile profile) {
         return constantUrl(ASSESSMENTS_ENDPOINT + "/" + profile.getIdentifier() + "/");
+    }
+
+    public static URL ASSESSMENT_ADD_QUESTION_ENDPOINT(AssessmentProfile profile) {
+        return constantUrl(ASSESSMENTS_ENDPOINT + "/" + profile.getIdentifier() + "/question");
+    }
+
+    public static URL ASSESSMENT_LOOKUP_QUESTION_ENDPOINT(AssessmentProfile profile, Token questionId) {
+        return constantUrl(ASSESSMENTS_ENDPOINT + "/" + profile.getIdentifier() + "/question/" + questionId.toString());
     }
 }

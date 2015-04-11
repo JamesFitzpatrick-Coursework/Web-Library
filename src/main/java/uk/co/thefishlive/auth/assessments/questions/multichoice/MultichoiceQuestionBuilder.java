@@ -24,4 +24,8 @@ public interface MultichoiceQuestionBuilder extends QuestionBuilder {
      */
     public List<Option> getOptions();
 
+    /**
+     * Clear all the currently associated with this question.
+     */
+    public void clearOptions();
 }

@@ -165,18 +165,4 @@ public class AuthToken implements Token {
 
         return new AuthToken(tokenParts[0][0], tokenParts[1], tokenParts[2], tokenParts[3]);
     }
-
-
-    public static class AuthTokenHandler implements JsonSerializer<Token>, JsonDeserializer<Token> {
-
-        @Override
-        public Token deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            return AuthToken.decode(jsonElement.getAsString());
-        }
-
-        @Override
-        public JsonElement serialize(Token token, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(token.toString());
-        }
-    }
 }

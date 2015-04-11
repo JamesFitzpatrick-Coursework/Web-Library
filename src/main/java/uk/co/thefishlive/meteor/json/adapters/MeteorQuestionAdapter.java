@@ -8,6 +8,7 @@ import com.google.gson.JsonSerializationContext;
 
 import uk.co.thefishlive.auth.assessments.questions.Question;
 import uk.co.thefishlive.auth.assessments.questions.QuestionType;
+import uk.co.thefishlive.meteor.assessments.questions.answer.MeteorAnswerQuestion;
 import uk.co.thefishlive.meteor.assessments.questions.multichoice.MeteorMultichoiceQuestion;
 import uk.co.thefishlive.meteor.json.JsonAdapter;
 
@@ -34,8 +35,8 @@ public class MeteorQuestionAdapter implements JsonAdapter<Question> {
         switch (type) {
             case MULTI_CHOICE:
                 return MeteorMultichoiceQuestion.class;
-
             case ANSWER:
+                return MeteorAnswerQuestion.class;
             default:
                 throw new JsonParseException("Invalid question type");
         }

@@ -21,6 +21,14 @@ public interface AssessmentBuilder {
     public void setName(String name);
 
     /**
+     * Set the display name of this assessment.
+     *
+     * @param name
+     *      the display name for this assessment
+     */
+    public void setDisplayName(String name);
+
+    /**
      * Create a question builder of a given type for this assessment.
      *
      * @param type

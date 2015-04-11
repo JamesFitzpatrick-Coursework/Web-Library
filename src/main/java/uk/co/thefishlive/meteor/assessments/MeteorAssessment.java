@@ -1,24 +1,38 @@
 package uk.co.thefishlive.meteor.assessments;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
 
 import uk.co.thefishlive.auth.assessments.Assessment;
-import uk.co.thefishlive.auth.assessments.AssessmentManager;
 import uk.co.thefishlive.auth.assessments.AssessmentProfile;
+import uk.co.thefishlive.auth.assessments.exception.AssessmentException;
 import uk.co.thefishlive.auth.assessments.questions.Question;
+import uk.co.thefishlive.auth.data.Token;
+import uk.co.thefishlive.http.HttpClient;
+import uk.co.thefishlive.http.HttpHeader;
+import uk.co.thefishlive.http.HttpRequest;
+import uk.co.thefishlive.http.HttpResponse;
+import uk.co.thefishlive.http.RequestType;
+import uk.co.thefishlive.http.meteor.MeteorHttpClient;
+import uk.co.thefishlive.http.meteor.MeteorHttpRequest;
+import uk.co.thefishlive.meteor.assessments.questions.MeteorQuestion;
+import uk.co.thefishlive.meteor.json.GsonInstance;
 import uk.co.thefishlive.meteor.json.annotations.Internal;
+import uk.co.thefishlive.meteor.utils.WebUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MeteorAssessment implements Assessment {
 
     @Internal
-    private final AssessmentManager manager;
+    private final MeteorAssessmentManager manager;
 
     private AssessmentProfile profile;
     private List<Question> questions;
 
-    public MeteorAssessment(AssessmentManager manager, AssessmentProfile profile, List<Question> questions) {
+    public MeteorAssessment(MeteorAssessmentManager manager, AssessmentProfile profile, List<Question> questions) {
         this.manager = manager;
 
         this.profile = profile;
@@ -33,6 +47,61 @@ public class MeteorAssessment implements Assessment {
     @Override
     public List<Question> getQuestions() {
         return ImmutableList.copyOf(questions);
+    }
+
+    @Override
+    public void addQuestion(Question question) throws IOException, AssessmentException {
+        HttpClient client = MeteorHttpClient.getInstance();
+
+        List<HttpHeader> headers = new ArrayList<>();
+        headers.addAll(this.manager.getAuthHandler().getAuthHeaders());
+
+        JsonObject payload = new JsonObject();
+        payload.add("question", GsonInstance.get().toJsonTree(question, MeteorQuestion.class));
+        System.out.println(payload);
+
+        HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
+        HttpResponse response = client.sendRequest(WebUtils.ASSESSMENT_ADD_QUESTION_ENDPOINT(profile), request);
+
+        if (!response.isSuccessful()) {
+            throw new AssessmentException(response.getResponseBody().get("error").getAsString());
+        }
+    }
+
+    @Override
+    public Question updateQuestion(Token id, Question question) throws IOException, AssessmentException {
+        HttpClient client = MeteorHttpClient.getInstance();
+
+        List<HttpHeader> headers = new ArrayList<>();
+        headers.addAll(this.manager.getAuthHandler().getAuthHeaders());
+
+        JsonObject payload = new JsonObject();
+        payload.add("question", GsonInstance.get().toJsonTree(question, MeteorQuestion.class));
+        System.out.println(payload);
+
+        HttpRequest request = new MeteorHttpRequest(RequestType.POST, payload, headers);
+        HttpResponse response = client.sendRequest(WebUtils.ASSESSMENT_LOOKUP_QUESTION_ENDPOINT(profile, id), request);
+
+        if (!response.isSuccessful()) {
+            throw new AssessmentException(response.getResponseBody().get("error").getAsString());
+        }
+
+        return GsonInstance.get().fromJson(response.getResponseBody().get("question"), MeteorQuestion.class);
+    }
+
+    @Override
+    public void deleteQuestion(Token id) throws IOException, AssessmentException{
+        HttpClient client = MeteorHttpClient.getInstance();
+
+        List<HttpHeader> headers = new ArrayList<>();
+        headers.addAll(this.manager.getAuthHandler().getAuthHeaders());
+
+        HttpRequest request = new MeteorHttpRequest(RequestType.DELETE, headers);
+        HttpResponse response = client.sendRequest(WebUtils.ASSESSMENT_LOOKUP_QUESTION_ENDPOINT(profile, id), request);
+
+        if (!response.isSuccessful()) {
+            throw new AssessmentException(response.getResponseBody().get("error").getAsString());
+        }
     }
 
     @Override

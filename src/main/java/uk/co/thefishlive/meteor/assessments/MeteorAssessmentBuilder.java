@@ -31,6 +31,7 @@ public class MeteorAssessmentBuilder implements AssessmentBuilder {
 
     private List<Question> questions = Lists.newArrayList();
     private String name;
+    private String displayname;
 
     public MeteorAssessmentBuilder(MeteorAssessmentFactory factory) {
         this.factory = factory;
@@ -39,6 +40,11 @@ public class MeteorAssessmentBuilder implements AssessmentBuilder {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void setDisplayName(String name) {
+        this.displayname = name;
     }
 
     @Override
@@ -55,7 +61,7 @@ public class MeteorAssessmentBuilder implements AssessmentBuilder {
     public Assessment build() throws IOException, AssessmentCreateException {
         Assessment assessment = new MeteorAssessment(
             factory.getAssessmentManager(),
-            new MeteorAssessmentProfile(null, this.name, this.name),
+            new MeteorAssessmentProfile(null, this.name, this.displayname),
             questions
         );
 
