@@ -6,6 +6,13 @@ package uk.co.thefishlive.auth.assessments.assignments;
 public interface QuestionScore {
 
     /**
+     * Gets the question number that this score represents.
+     *
+     * @return the question number this score represents
+     */
+    public int getQuestionNumber();
+
+    /**
      * Get the score that was achieved in this question.
      *
      * @return the score that was achieved for this question

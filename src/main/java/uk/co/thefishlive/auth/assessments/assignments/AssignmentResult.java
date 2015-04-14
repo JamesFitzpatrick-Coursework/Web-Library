@@ -35,4 +35,12 @@ public interface AssignmentResult {
      */
     public Map<Integer, QuestionScore> getScores();
 
+    /**
+     * Get the percentage score for this assignment.
+     * <p />
+     * This is equivalent to {@code {@link #getTotalScore()}/{@link #getMaximumScore()} * 100}
+     *
+     * @return the percentage score for this assignment
+     */
+    public float getPercentage();
 }

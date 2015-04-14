@@ -4,29 +4,39 @@ import com.google.gson.annotations.SerializedName;
 
 import uk.co.thefishlive.auth.assessments.assignments.QuestionScore;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  *
  */
 public class MeteorQuestionScore implements QuestionScore {
 
+    @SerializedName("question-number")
+    private SimpleIntegerProperty questionNumber = new SimpleIntegerProperty();
     @SerializedName("score")
-    private int score;
+    private SimpleIntegerProperty score = new SimpleIntegerProperty();
     @SerializedName("max-score")
-    private int maxScore;
+    private SimpleIntegerProperty maxScore = new SimpleIntegerProperty();
 
-    public MeteorQuestionScore(int score, int maxScore) {
-        this.score = score;
-        this.maxScore = maxScore;
+    public MeteorQuestionScore(int questionNumber, int score, int maxScore) {
+        this.questionNumber.set(questionNumber);
+        this.score.set(score);
+        this.maxScore.set(maxScore);
+    }
+
+    @Override
+    public int getQuestionNumber() {
+        return this.questionNumber.get();
     }
 
     @Override
     public int getScore() {
-        return this.score;
+        return this.score.get();
     }
 
     @Override
     public int getMaximumScore() {
-        return this.maxScore;
+        return this.maxScore.get();
     }
 
     @Override
@@ -40,20 +50,17 @@ public class MeteorQuestionScore implements QuestionScore {
 
         MeteorQuestionScore that = (MeteorQuestionScore) o;
 
-        if (maxScore != that.maxScore) {
-            return false;
-        }
-        if (score != that.score) {
-            return false;
-        }
+        return maxScore.get() == that.maxScore.get() &&
+               score.get() == that.score.get() &&
+               questionNumber.get() == that.questionNumber.get();
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = score;
-        result = 31 * result + maxScore;
+        int result = score.get();
+        result = 31 * result + maxScore.get();
+        result = 31 * result + questionNumber.get();
         return result;
     }
 
@@ -61,8 +68,9 @@ public class MeteorQuestionScore implements QuestionScore {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("MeteorQuestionScore{");
-        sb.append("score=").append(score);
-        sb.append(", maxScore=").append(maxScore);
+        sb.append("question-number=").append(questionNumber.get());
+        sb.append(", score=").append(score.get());
+        sb.append(", maxScore=").append(maxScore.get());
         sb.append('}');
         return sb.toString();
     }

@@ -40,4 +40,9 @@ public class MeteorAssignmentResult implements AssignmentResult {
     public Map<Integer, QuestionScore> getScores() {
         return ImmutableMap.copyOf(this.scores);
     }
+
+    @Override
+    public float getPercentage() {
+        return ((getTotalScore()  * 100f) / ((float) getMaximumScore()));
+    }
 }

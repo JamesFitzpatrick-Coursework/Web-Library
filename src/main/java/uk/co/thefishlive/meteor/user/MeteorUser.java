@@ -337,6 +337,9 @@ public class MeteorUser implements User {
 
             JsonObject responseBody = response.getResponseBody();
             Map<Integer, QuestionScore> scores = Maps.newHashMap();
+            int i = 1;
+
+            System.out.println(response.getResponseBody());
 
             for (JsonElement element : responseBody.getAsJsonArray("scores")) {
                 JsonObject question = element.getAsJsonObject();
@@ -344,6 +347,7 @@ public class MeteorUser implements User {
                 scores.put(
                     question.get("question-number").getAsInt(),
                     new MeteorQuestionScore(
+                        question.get("question-number").getAsInt(),
                         question.get("score").getAsInt(),
                         question.get("max-score").getAsInt()
                     )
